@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHI Mapper - نظام ربط الأدوية بالتشخيصات</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<header id="app-header">
+    <div class="header-content">
+        <h1>💊 نظام ربط الأدوية بالتشخيصات التأمينية</h1>
+        <p class="header-sub">CHI Insurance Drug-Diagnosis Mapper</p>
+    </div>
+</header>
+
+<!-- ═══ Main Content ═══ -->
+<main>
+
+    <!-- Search Section -->
+    <section id="search-section">
+        <div class="search-card">
+            <div class="search-input-wrapper">
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="اكتب اسم الدواء أو التشخيص هنا..."
+                    autocomplete="off"
+                    autofocus
+                >
+                <button id="search-btn" onclick="performSearch()">
+                    🔍 بحث
+                </button>
+            </div>
+
+            <div class="search-type-selector">
+                <label class="radio-card selected" id="radio-drug">
+                    <input type="radio" name="searchType" value="drug" checked onchange="onTypeChange()">
+                    <span class="radio-icon">💊</span>
+                    <span class="radio-text">بحث بالدواء<br><small>الاسم العلمي أو التجاري</small></span>
+                </label>
+                <label class="radio-card" id="radio-indication">
+                    <input type="radio" name="searchType" value="indication" onchange="onTypeChange()">
+                    <span class="radio-icon">🏥</span>
+                    <span class="radio-text">بحث بالتشخيص<br><small>اسم المرض أو كود ICD-10</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Stats bar -->
+        <div id="stats-bar" class="stats-bar"></div>
+    </section>
+
+    <!-- Loading -->
+    <div id="loading" class="loading" style="display:none">
+        <div class="spinner"></div>
+        <span>جاري البحث...</span>
+    </div>
+
+    <!-- Results Section -->
+    <section id="results-section" style="display:none">
+        <div class="results-header">
+            <h2 id="results-title"></h2>
+            <button class="btn-back-small" onclick="clearResults()">✕ مسح النتائج</button>
+        </div>
+        <div id="results-list"></div>
+    </section>
+
+    <!-- Detail Section -->
+    <section id="detail-section" style="display:none">
+        <button class="btn-back" onclick="goBackToResults()">
+            ↩ رجوع للنتائج
+        </button>
+        <div id="detail-content"></div>
+    </section>
+
+</main>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+    <p>CHI Drug-Diagnosis Mapper &bull; Ed54 - Dec 2025 &bull; للاستخدام الطبي فقط</p>
+</footer>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,769 @@
+/* ═══════════════════════════════════════════════════════
+   CHI Drug-Diagnosis Mapper - Stylesheet
+   Designed for elderly doctors: large fonts, high contrast,
+   clear layout, RTL support
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Reset & Variables ─────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #1565c0;
+    --primary-light: #e3f2fd;
+    --primary-dark: #0d47a1;
+    --bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --text-light: #777;
+    --border: #ddd;
+    --border-light: #eee;
+    --danger: #c62828;
+    --danger-bg: #ffebee;
+    --warning: #e65100;
+    --warning-bg: #fff3e0;
+    --success: #2e7d32;
+    --success-bg: #e8f5e9;
+    --info: #1565c0;
+    --info-bg: #e3f2fd;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 4px 20px rgba(0,0,0,0.12);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --font-base: 18px;
+    --font-lg: 22px;
+    --font-xl: 28px;
+    --font-xxl: 32px;
+    --font-sm: 15px;
+    --font-xs: 13px;
+    --transition: 0.2s ease;
+}
+
+body {
+    font-family: 'Segoe UI', 'Tahoma', 'Arial', 'Noto Sans Arabic', sans-serif;
+    font-size: var(--font-base);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    direction: rtl;
+    min-height: 100vh;
+}
+
+/* ─── Header ────────────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 24px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: var(--font-xl);
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+header .header-sub {
+    font-size: var(--font-sm);
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+/* ─── Main ──────────────────────────────────────────── */
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+}
+
+/* ─── Search Section ────────────────────────────────── */
+.search-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+}
+
+.search-input-wrapper {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    flex: 1;
+    font-size: var(--font-lg);
+    padding: 16px 20px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color var(--transition);
+    direction: auto;
+    font-family: inherit;
+}
+
+#search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15);
+}
+
+#search-input::placeholder {
+    color: #aaa;
+    font-size: var(--font-base);
+}
+
+#search-btn {
+    font-size: var(--font-lg);
+    padding: 16px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background var(--transition), transform 0.1s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+#search-btn:hover {
+    background: var(--primary-dark);
+}
+
+#search-btn:active {
+    transform: scale(0.97);
+}
+
+/* ─── Radio Cards ───────────────────────────────────── */
+.search-type-selector {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    background: white;
+}
+
+.radio-card:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.radio-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.15);
+}
+
+.radio-card input[type="radio"] {
+    display: none;
+}
+
+.radio-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.radio-text {
+    font-size: var(--font-base);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.radio-text small {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+}
+
+/* ─── Stats Bar ─────────────────────────────────────── */
+.stats-bar {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: var(--card-bg);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.stat-item strong {
+    color: var(--primary);
+    font-size: var(--font-base);
+}
+
+/* ─── Loading ───────────────────────────────────────── */
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: var(--font-lg);
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ─── Results Section ───────────────────────────────── */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.results-header h2 {
+    font-size: var(--font-lg);
+    color: var(--text);
+}
+
+.btn-back-small {
+    font-size: var(--font-sm);
+    padding: 8px 16px;
+    background: #f5f5f5;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-back-small:hover {
+    background: #eee;
+}
+
+/* ─── Result Cards ──────────────────────────────────── */
+.result-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all var(--transition);
+    border-right: 5px solid var(--primary);
+}
+
+.result-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateX(-3px);
+}
+
+.result-card .drug-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.result-card .drug-details {
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.result-card .trade-names {
+    font-size: var(--font-sm);
+    color: var(--text-light);
+}
+
+.result-card .trade-names .trade-tag {
+    display: inline-block;
+    background: #f0f4f8;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin: 2px 4px 2px 0;
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+}
+
+.result-card .meta-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.indication-card {
+    border-right-color: var(--success);
+}
+
+.indication-card .indication-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 4px;
+}
+
+.indication-card .icd-codes {
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+}
+
+.indication-card .icd-tag {
+    display: inline-block;
+    background: var(--success-bg);
+    color: var(--success);
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin: 2px 4px 2px 0;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    font-family: 'Consolas', 'Courier New', monospace;
+    direction: ltr;
+}
+
+/* ─── Detail Section ────────────────────────────────── */
+.btn-back {
+    font-size: var(--font-lg);
+    padding: 14px 28px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: background var(--transition);
+    font-family: inherit;
+}
+
+.btn-back:hover {
+    background: var(--primary-dark);
+}
+
+/* Drug Detail Header */
+.detail-header {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border-right: 6px solid var(--primary);
+}
+
+.detail-header .detail-name {
+    font-size: var(--font-xxl);
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+
+.detail-header .detail-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+}
+
+.detail-header .detail-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-header .detail-info .info-label {
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ─── Section Headers ───────────────────────────────── */
+.section-title {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--text);
+    margin: 24px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ─── Indication Detail Card ────────────────────────── */
+.indication-detail-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border-right: 4px solid var(--success);
+}
+
+.indication-detail-card .ind-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 8px;
+}
+
+.indication-detail-card .ind-icd {
+    margin-bottom: 12px;
+}
+
+/* ─── Prescribing Edits Badges ──────────────────────── */
+.edits-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.edit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.edit-badge.danger {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #ffcdd2;
+}
+
+.edit-badge.warning {
+    background: var(--warning-bg);
+    color: var(--warning);
+    border: 1px solid #ffe0b2;
+}
+
+.edit-badge.info {
+    background: var(--info-bg);
+    color: var(--info);
+    border: 1px solid #bbdefb;
+}
+
+.edit-badge.success {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid #c8e6c9;
+}
+
+/* ─── Notes Box ─────────────────────────────────────── */
+.notes-box {
+    background: #fffde7;
+    border: 1px solid #fff9c4;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-size: var(--font-base);
+    line-height: 1.8;
+    color: #5d4037;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.notes-box .notes-label {
+    font-weight: 700;
+    color: var(--warning);
+    display: block;
+    margin-bottom: 6px;
+    font-size: var(--font-base);
+}
+
+/* ─── MDD & Info Grid ───────────────────────────────── */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.info-box {
+    background: #f8f9fa;
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    border: 1px solid var(--border-light);
+}
+
+.info-box .info-box-label {
+    font-size: var(--font-sm);
+    color: var(--text-light);
+    margin-bottom: 2px;
+}
+
+.info-box .info-box-value {
+    font-size: var(--font-base);
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ─── Product Cards ─────────────────────────────────── */
+.product-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    border-right: 4px solid var(--info);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.product-card .product-main {
+    flex: 1;
+    min-width: 250px;
+}
+
+.product-card .product-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.product-card .product-meta {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.product-card .product-price {
+    font-size: var(--font-xl);
+    font-weight: 700;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.product-card .product-price small {
+    font-size: var(--font-sm);
+    font-weight: 400;
+    color: var(--text-light);
+}
+
+.product-type-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: var(--font-xs);
+    font-weight: 600;
+}
+
+.product-type-badge.nce {
+    background: #e8eaf6;
+    color: #283593;
+}
+
+.product-type-badge.generic {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.product-type-badge.biological {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+/* ─── Patient Type Badge ────────────────────────────── */
+.ip-badge {
+    display: inline-block;
+    background: #f3e5f5;
+    color: #7b1fa2;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: var(--font-xs);
+    font-weight: 600;
+}
+
+/* ─── Drug Card in Indication View ──────────────────── */
+.drug-in-indication-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border-right: 4px solid var(--primary);
+}
+
+.drug-in-indication-card .drug-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.drug-in-indication-card .drug-card-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.drug-in-indication-card .drug-card-info {
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+}
+
+.drug-trade-names {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+}
+
+.drug-trade-names .trade-label {
+    font-size: var(--font-sm);
+    color: var(--text-light);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.mini-product {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8f9fa;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin: 3px 4px 3px 0;
+    font-size: var(--font-sm);
+    border: 1px solid var(--border-light);
+}
+
+.mini-product .mini-price {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ─── No Results ────────────────────────────────────── */
+.no-results {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-light);
+    font-size: var(--font-lg);
+}
+
+.no-results .no-results-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+/* ─── Footer ────────────────────────────────────────── */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+    font-size: var(--font-sm);
+    border-top: 1px solid var(--border-light);
+    margin-top: 40px;
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 700px) {
+    :root {
+        --font-base: 16px;
+        --font-lg: 20px;
+        --font-xl: 24px;
+        --font-xxl: 28px;
+    }
+
+    .search-input-wrapper {
+        flex-direction: column;
+    }
+
+    .search-type-selector {
+        flex-direction: column;
+    }
+
+    .detail-header .detail-info {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .product-card {
+        flex-direction: column;
+    }
+
+    .product-card .product-price {
+        font-size: var(--font-lg);
+    }
+
+    main {
+        padding: 12px 10px 30px;
+    }
+
+    header {
+        padding: 18px 12px;
+    }
+
+    header h1 {
+        font-size: var(--font-lg);
+    }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* ─── Utilities ─────────────────────────────────────── */
+.text-danger { color: var(--danger); }
+.text-warning { color: var(--warning); }
+.text-success { color: var(--success); }
+.text-info { color: var(--info); }
+.text-secondary { color: var(--text-secondary); }
+.ltr { direction: ltr; text-align: left; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mb-8 { margin-bottom: 8px; }
+.fw-bold { font-weight: 700; }
+.fs-sm { font-size: var(--font-sm); }
