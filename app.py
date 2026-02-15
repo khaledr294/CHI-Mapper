@@ -1,7 +1,8 @@
 """
-CHI Drug-Diagnosis Mapper - FastAPI Application
+CHI Drug-Diagnosis Mapper - FastAPI Application V2
 Serves the web UI and API for doctors to look up insurance-approved
 drug-diagnosis combinations with prescribing rules.
+Includes specialty filtering, search filters, and cleaned ICD-10 data.
 """
 
 from fastapi import FastAPI, Query
@@ -12,6 +13,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
+from typing import Optional
 
 app = FastAPI(title="CHI Drug-Diagnosis Mapper")
 
@@ -53,53 +55,95 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+# ─── Specialties API ─────────────────────────────────────
+
+@app.get("/api/specialties")
+async def get_specialties():
+    """Return all specialties for the filter dropdown."""
+    conn = get_db()
+    try:
+        rows = conn.execute(
+            'SELECT key, name_ar, name_en, icon FROM specialties ORDER BY name_en'
+        ).fetchall()
+        return {"specialties": [dict(r) for r in rows]}
+    finally:
+        conn.close()
+
+
 # ─── Search API ───────────────────────────────────────────
 
 @app.get("/api/search")
 async def search(
     q: str = Query("", min_length=1),
-    type: str = Query("drug")
+    type: str = Query("drug"),
+    specialty: Optional[str] = Query(None)
 ):
     """
     Unified search endpoint.
     type=drug  → search by scientific name or trade name
     type=indication → search by indication name or ICD-10 code
+    specialty → optional: filter indications by specialty key
     """
     conn = get_db()
     try:
         if type == "drug":
-            return search_drugs(conn, q)
+            return search_drugs(conn, q, specialty)
         else:
-            return search_indications(conn, q)
+            return search_indications(conn, q, specialty)
     finally:
         conn.close()
 
 
-def search_drugs(conn, query):
+def search_drugs(conn, query, specialty=None):
     q_like = f"%{query}%"
 
-    # Search by scientific name in drugs table
-    sci_rows = conn.execute('''
-        SELECT DISTINCT d.id, d.description_code, d.scientific_name,
-               d.strength, d.strength_unit, d.pharmaceutical_form,
-               d.administration_route, d.drug_class, d.atc_code
-        FROM drugs d
-        WHERE d.scientific_name LIKE ?
-        ORDER BY d.scientific_name, CAST(d.strength AS REAL)
-        LIMIT 150
-    ''', (q_like,)).fetchall()
+    if specialty:
+        # When specialty is selected, only return drugs that have indications in that specialty
+        sci_rows = conn.execute('''
+            SELECT DISTINCT d.id, d.description_code, d.scientific_name,
+                   d.strength, d.strength_unit, d.pharmaceutical_form,
+                   d.administration_route, d.drug_class, d.atc_code
+            FROM drugs d
+            JOIN drug_indications di ON d.id = di.drug_id
+            JOIN indication_specialties isp ON di.indication_id = isp.indication_id
+            WHERE d.scientific_name LIKE ? AND isp.specialty_key = ?
+            ORDER BY d.scientific_name, CAST(d.strength AS REAL)
+            LIMIT 150
+        ''', (q_like, specialty)).fetchall()
 
-    # Search by trade name in products table
-    trade_rows = conn.execute('''
-        SELECT DISTINCT d.id, d.description_code, d.scientific_name,
-               d.strength, d.strength_unit, d.pharmaceutical_form,
-               d.administration_route, d.drug_class, d.atc_code
-        FROM drugs d
-        JOIN products p ON d.description_code = p.description_code
-        WHERE p.trade_name LIKE ?
-        ORDER BY d.scientific_name, CAST(d.strength AS REAL)
-        LIMIT 150
-    ''', (q_like,)).fetchall()
+        trade_rows = conn.execute('''
+            SELECT DISTINCT d.id, d.description_code, d.scientific_name,
+                   d.strength, d.strength_unit, d.pharmaceutical_form,
+                   d.administration_route, d.drug_class, d.atc_code
+            FROM drugs d
+            JOIN products p ON d.description_code = p.description_code
+            JOIN drug_indications di ON d.id = di.drug_id
+            JOIN indication_specialties isp ON di.indication_id = isp.indication_id
+            WHERE p.trade_name LIKE ? AND isp.specialty_key = ?
+            ORDER BY d.scientific_name, CAST(d.strength AS REAL)
+            LIMIT 150
+        ''', (q_like, specialty)).fetchall()
+    else:
+        sci_rows = conn.execute('''
+            SELECT DISTINCT d.id, d.description_code, d.scientific_name,
+                   d.strength, d.strength_unit, d.pharmaceutical_form,
+                   d.administration_route, d.drug_class, d.atc_code
+            FROM drugs d
+            WHERE d.scientific_name LIKE ?
+            ORDER BY d.scientific_name, CAST(d.strength AS REAL)
+            LIMIT 150
+        ''', (q_like,)).fetchall()
+
+        trade_rows = conn.execute('''
+            SELECT DISTINCT d.id, d.description_code, d.scientific_name,
+                   d.strength, d.strength_unit, d.pharmaceutical_form,
+                   d.administration_route, d.drug_class, d.atc_code
+            FROM drugs d
+            JOIN products p ON d.description_code = p.description_code
+            WHERE p.trade_name LIKE ?
+            ORDER BY d.scientific_name, CAST(d.strength AS REAL)
+            LIMIT 150
+        ''', (q_like,)).fetchall()
 
     # Merge and deduplicate
     seen = set()
@@ -138,27 +182,46 @@ def search_drugs(conn, query):
     return {"results": results[:60], "total": len(results)}
 
 
-def search_indications(conn, query):
+def search_indications(conn, query, specialty=None):
     q_like = f"%{query}%"
 
-    # Search by indication name
-    name_rows = conn.execute('''
-        SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
-        FROM indications i
-        WHERE i.indication_name LIKE ?
-        ORDER BY i.indication_name
-        LIMIT 80
-    ''', (q_like,)).fetchall()
+    if specialty:
+        # Filter by specialty
+        name_rows = conn.execute('''
+            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            FROM indications i
+            JOIN indication_specialties isp ON i.id = isp.indication_id
+            WHERE i.indication_name LIKE ? AND isp.specialty_key = ?
+            ORDER BY i.indication_name
+            LIMIT 80
+        ''', (q_like, specialty)).fetchall()
 
-    # Search by ICD-10 code
-    icd_rows = conn.execute('''
-        SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
-        FROM indications i
-        JOIN indication_icd_codes ic ON i.id = ic.indication_id
-        WHERE ic.icd_code LIKE ?
-        ORDER BY i.indication_name
-        LIMIT 80
-    ''', (q_like,)).fetchall()
+        icd_rows = conn.execute('''
+            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            FROM indications i
+            JOIN indication_icd_codes ic ON i.id = ic.indication_id
+            JOIN indication_specialties isp ON i.id = isp.indication_id
+            WHERE ic.icd_code LIKE ? AND isp.specialty_key = ?
+            ORDER BY i.indication_name
+            LIMIT 80
+        ''', (q_like, specialty)).fetchall()
+    else:
+        name_rows = conn.execute('''
+            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            FROM indications i
+            WHERE i.indication_name LIKE ?
+            ORDER BY i.indication_name
+            LIMIT 80
+        ''', (q_like,)).fetchall()
+
+        icd_rows = conn.execute('''
+            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            FROM indications i
+            JOIN indication_icd_codes ic ON i.id = ic.indication_id
+            WHERE ic.icd_code LIKE ?
+            ORDER BY i.indication_name
+            LIMIT 80
+        ''', (q_like,)).fetchall()
 
     seen = set()
     results = []
@@ -172,6 +235,16 @@ def search_indications(conn, query):
                 (ind['id'],)
             ).fetchone()
             ind['drug_count'] = cnt['c']
+
+            # Get specialties for this indication
+            specs = conn.execute('''
+                SELECT s.key, s.name_ar, s.icon
+                FROM indication_specialties isp
+                JOIN specialties s ON isp.specialty_key = s.key
+                WHERE isp.indication_id = ?
+                ORDER BY s.name_en
+            ''', (ind['id'],)).fetchall()
+            ind['specialties'] = [dict(s) for s in specs]
 
             results.append(ind)
 
@@ -217,6 +290,16 @@ async def drug_details(drug_id: int):
                 (ind['id'],)
             ).fetchall()
             ind['icd_codes'] = [c['icd_code'] for c in codes]
+
+            # Get specialties
+            specs = conn.execute('''
+                SELECT s.key, s.name_ar, s.icon
+                FROM indication_specialties isp
+                JOIN specialties s ON isp.specialty_key = s.key
+                WHERE isp.indication_id = ?
+            ''', (ind['id'],)).fetchall()
+            ind['specialties'] = [dict(s) for s in specs]
+
             ind_list.append(ind)
 
         result['indications'] = ind_list
@@ -260,6 +343,16 @@ async def indication_details(indication_id: int):
             (indication_id,)
         ).fetchall()
         result['icd_codes'] = [c['icd_code'] for c in codes]
+
+        # Specialties
+        specs = conn.execute('''
+            SELECT s.key, s.name_ar, s.name_en, s.icon
+            FROM indication_specialties isp
+            JOIN specialties s ON isp.specialty_key = s.key
+            WHERE isp.indication_id = ?
+            ORDER BY s.name_en
+        ''', (indication_id,)).fetchall()
+        result['specialties'] = [dict(s) for s in specs]
 
         # Drugs with prescribing rules
         drugs = conn.execute('''
@@ -307,6 +400,11 @@ async def stats():
         for table in ['drugs', 'indications', 'products']:
             cnt = conn.execute(f'SELECT COUNT(*) as c FROM {table}').fetchone()
             result[table] = cnt['c']
+
+        # Specialty count
+        cnt = conn.execute('SELECT COUNT(*) as c FROM specialties').fetchone()
+        result['specialties'] = cnt['c']
+
         return result
     finally:
         conn.close()

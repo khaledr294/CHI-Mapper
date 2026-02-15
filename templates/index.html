@@ -50,6 +50,32 @@
             </div>
         </div>
 
+        <!-- Filter Bar -->
+        <div id="filter-bar" class="filter-bar" style="display:none">
+            <div class="filter-group">
+                <label class="filter-label" for="specialty-filter">🏥 التخصص</label>
+                <select id="specialty-filter" class="filter-select" onchange="onFilterChange()">
+                    <option value="">جميع التخصصات</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" for="sort-filter">📊 الترتيب</label>
+                <select id="sort-filter" class="filter-select" onchange="onFilterChange()">
+                    <option value="default">افتراضي</option>
+                    <option value="fewest-edits">الأقل قيوداً</option>
+                    <option value="alpha">أبجدي (A-Z)</option>
+                    <option value="most-products">الأكثر منتجات</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="toggle-label">
+                    <input type="checkbox" id="hide-ip-filter" onchange="onFilterChange()">
+                    <span class="toggle-text">إخفاء أدوية الداخلي (IP)</span>
+                </label>
+            </div>
+            <button class="filter-clear-btn" onclick="clearFilters()" title="مسح الفلاتر">✕ مسح</button>
+        </div>
+
         <!-- Stats bar -->
         <div id="stats-bar" class="stats-bar"></div>
     </section>

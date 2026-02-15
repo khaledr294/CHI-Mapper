@@ -1,6 +1,6 @@
 /**
- * CHI Drug-Diagnosis Mapper - Frontend Logic
- * Handles search, rendering, and navigation for doctors.
+ * CHI Drug-Diagnosis Mapper - Frontend Logic V2
+ * Handles search, rendering, navigation, filters, and specialty support.
  */
 
 // ═══ Prescribing Edits Translation Map ═══════════════
@@ -19,6 +19,9 @@ const EDIT_MAP = {
 let lastResults = null;
 let lastSearchType = 'drug';
 let lastQuery = '';
+let specialtiesList = [];
+let lastDetailData = null;
+let lastDetailType = null; // 'drug' or 'indication'
 
 // ═══ DOM References ══════════════════════════════════
 const searchInput    = document.getElementById('search-input');
@@ -29,12 +32,13 @@ const resultsTitle   = document.getElementById('results-title');
 const detailSection  = document.getElementById('detail-section');
 const detailContent  = document.getElementById('detail-content');
 const loadingEl      = document.getElementById('loading');
+const filterBar      = document.getElementById('filter-bar');
 
 // ═══ Init ════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
     loadStats();
+    loadSpecialties();
 
-    // Enter key triggers search
     searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') performSearch();
     });
@@ -47,7 +51,6 @@ function onTypeChange() {
     if (checked) {
         checked.closest('.radio-card').classList.add('selected');
     }
-    // Update placeholder
     const type = getSearchType();
     searchInput.placeholder = type === 'drug'
         ? 'اكتب اسم الدواء (علمي أو تجاري)...'
@@ -57,6 +60,26 @@ function onTypeChange() {
 function getSearchType() {
     const checked = document.querySelector('input[name="searchType"]:checked');
     return checked ? checked.value : 'drug';
+}
+
+// ═══ Load Specialties ════════════════════════════════
+async function loadSpecialties() {
+    try {
+        const res = await fetch('/api/specialties');
+        const data = await res.json();
+        specialtiesList = data.specialties || [];
+
+        const select = document.getElementById('specialty-filter');
+        if (select) {
+            select.innerHTML = '<option value="">جميع التخصصات</option>';
+            for (const s of specialtiesList) {
+                const opt = document.createElement('option');
+                opt.value = s.key;
+                opt.textContent = `${s.icon} ${s.name_ar} (${s.name_en})`;
+                select.appendChild(opt);
+            }
+        }
+    } catch (e) { /* silent */ }
 }
 
 // ═══ Load Stats ══════════════════════════════════════
@@ -69,8 +92,98 @@ async function loadStats() {
             <div class="stat-item">💊 <strong>${data.drugs?.toLocaleString() || '—'}</strong> صنف دوائي</div>
             <div class="stat-item">🏥 <strong>${data.indications?.toLocaleString() || '—'}</strong> تشخيص</div>
             <div class="stat-item">📦 <strong>${data.products?.toLocaleString() || '—'}</strong> منتج تجاري</div>
+            <div class="stat-item">⚕️ <strong>${data.specialties?.toLocaleString() || '—'}</strong> تخصص</div>
         `;
     } catch (e) { /* silent */ }
+}
+
+// ═══ Filter Controls ═════════════════════════════════
+function getFilters() {
+    return {
+        specialty: document.getElementById('specialty-filter')?.value || '',
+        sort: document.getElementById('sort-filter')?.value || 'default',
+        hideIp: document.getElementById('hide-ip-filter')?.checked || false
+    };
+}
+
+function onFilterChange() {
+    // If we have detail data showing, re-render detail with filters
+    if (detailSection.style.display !== 'none' && lastDetailData) {
+        if (lastDetailType === 'indication') {
+            renderIndicationFullDetail(lastDetailData);
+        } else if (lastDetailType === 'drug') {
+            renderDrugDetail(lastDetailData);
+        }
+        return;
+    }
+    // If results are showing, re-search with new specialty filter
+    if (lastQuery) {
+        performSearch();
+    }
+}
+
+function clearFilters() {
+    const specFilter = document.getElementById('specialty-filter');
+    const sortFilter = document.getElementById('sort-filter');
+    const hideIp = document.getElementById('hide-ip-filter');
+    if (specFilter) specFilter.value = '';
+    if (sortFilter) sortFilter.value = 'default';
+    if (hideIp) hideIp.checked = false;
+    onFilterChange();
+}
+
+function showFilterBar() {
+    if (filterBar) filterBar.style.display = 'flex';
+}
+
+// ═══ Client-Side Filtering ═══════════════════════════
+function applyDrugFilters(drugs) {
+    const filters = getFilters();
+    let filtered = [...drugs];
+
+    // Hide IP-only drugs
+    if (filters.hideIp) {
+        filtered = filtered.filter(d => d.patient_type !== 'IP');
+    }
+
+    // Sort
+    if (filters.sort === 'fewest-edits') {
+        filtered.sort((a, b) => {
+            const ea = countEdits(a.prescribing_edits);
+            const eb = countEdits(b.prescribing_edits);
+            return ea - eb;
+        });
+    } else if (filters.sort === 'alpha') {
+        filtered.sort((a, b) => (a.scientific_name || '').localeCompare(b.scientific_name || ''));
+    } else if (filters.sort === 'most-products') {
+        filtered.sort((a, b) => (b.products?.length || 0) - (a.products?.length || 0));
+    }
+
+    return filtered;
+}
+
+function applyIndicationFilters(indications) {
+    const filters = getFilters();
+    let filtered = [...indications];
+
+    // Hide IP-only
+    if (filters.hideIp) {
+        filtered = filtered.filter(ind => ind.patient_type !== 'IP');
+    }
+
+    // Sort
+    if (filters.sort === 'fewest-edits') {
+        filtered.sort((a, b) => countEdits(a.prescribing_edits) - countEdits(b.prescribing_edits));
+    } else if (filters.sort === 'alpha') {
+        filtered.sort((a, b) => (a.indication_name || '').localeCompare(b.indication_name || ''));
+    }
+
+    return filtered;
+}
+
+function countEdits(editsStr) {
+    if (!editsStr || !editsStr.trim()) return 0;
+    return editsStr.split(',').filter(c => c.trim()).length;
 }
 
 // ═══ Search ══════════════════════════════════════════
@@ -82,18 +195,23 @@ async function performSearch() {
     }
 
     const type = getSearchType();
+    const filters = getFilters();
     lastQuery = q;
     lastSearchType = type;
 
-    // Show loading
     showLoading(true);
     detailSection.style.display = 'none';
     resultsSection.style.display = 'none';
 
     try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&type=${type}`);
+        let url = `/api/search?q=${encodeURIComponent(q)}&type=${type}`;
+        if (filters.specialty) {
+            url += `&specialty=${encodeURIComponent(filters.specialty)}`;
+        }
+        const res = await fetch(url);
         const data = await res.json();
         lastResults = data;
+        showFilterBar();
         renderResults(data, type, q);
     } catch (err) {
         resultsList.innerHTML = `<div class="no-results">
@@ -164,10 +282,16 @@ function renderIndicationCard(ind) {
     const codesHtml = codes.map(c => `<span class="icd-tag">${escHtml(c)}</span>`).join('');
     const moreCount = icdRaw.split(',').filter(c => c.trim()).length - 8;
 
+    // Specialty tags
+    const specTags = (ind.specialties || []).slice(0, 4).map(s =>
+        `<span class="specialty-tag">${s.icon} ${escHtml(s.name_ar)}</span>`
+    ).join('');
+
     return `
     <div class="result-card indication-card" onclick="loadIndicationDetail(${ind.id})">
         <div class="indication-name">${escHtml(ind.indication_name)}</div>
         <div class="icd-codes">${codesHtml}${moreCount > 0 ? `<span class="icd-tag">+${moreCount}</span>` : ''}</div>
+        ${specTags ? `<div class="specialty-tags-row">${specTags}</div>` : ''}
         <span class="meta-badge" style="background:#e8f5e9;color:#2e7d32">
             💊 ${ind.drug_count} ${ind.drug_count === 1 ? 'دواء' : 'أدوية'}
         </span>
@@ -184,6 +308,9 @@ async function loadDrugDetail(drugId) {
         const res = await fetch(`/api/drug/${drugId}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
+        lastDetailData = data;
+        lastDetailType = 'drug';
+        showFilterBar();
         renderDrugDetail(data);
     } catch (err) {
         detailContent.innerHTML = `<div class="no-results">⚠️ حدث خطأ في تحميل البيانات</div>`;
@@ -210,12 +337,15 @@ function renderDrugDetail(drug) {
         </div>
     </div>`;
 
-    // Indications section
-    const indications = drug.indications || [];
-    html += `<h3 class="section-title">📋 التشخيصات المقبولة تأمينياً (${indications.length})</h3>`;
+    // Apply filters to indications
+    const allIndications = drug.indications || [];
+    const indications = applyIndicationFilters(allIndications);
+    const hiddenCount = allIndications.length - indications.length;
+
+    html += `<h3 class="section-title">📋 التشخيصات المقبولة تأمينياً (${indications.length}${hiddenCount > 0 ? ` <span class="filter-note">من أصل ${allIndications.length} — ${hiddenCount} مخفي بالفلتر</span>` : ''})</h3>`;
 
     if (indications.length === 0) {
-        html += `<div class="no-results" style="padding:20px">لا توجد تشخيصات مسجلة</div>`;
+        html += `<div class="no-results" style="padding:20px">${hiddenCount > 0 ? 'جميع التشخيصات مخفية بواسطة الفلتر' : 'لا توجد تشخيصات مسجلة'}</div>`;
     } else {
         for (const ind of indications) {
             html += renderIndicationDetailCard(ind);
@@ -243,15 +373,17 @@ function renderIndicationDetailCard(ind) {
     const codes = (ind.icd_codes || []);
     const codesHtml = codes.map(c => `<span class="icd-tag">${escHtml(c)}</span>`).join('');
 
-    // Prescribing edits
+    // Specialty tags for indication
+    const specTags = (ind.specialties || []).map(s =>
+        `<span class="specialty-tag">${s.icon} ${escHtml(s.name_ar)}</span>`
+    ).join('');
+
     const editsHtml = renderEdits(ind.prescribing_edits);
 
-    // Notes
     const notesHtml = ind.notes
         ? `<div class="notes-box"><span class="notes-label">📝 ملاحظات وضوابط الصرف:</span>${escHtml(ind.notes)}</div>`
         : '';
 
-    // Info grid (MDD, Appendix, Patient Type)
     let infoItems = '';
     if (ind.mdd_adults && ind.mdd_adults !== 'NA') {
         infoItems += `<div class="info-box"><div class="info-box-label">💊 الجرعة القصوى (بالغين)</div><div class="info-box-value">${escHtml(ind.mdd_adults)}</div></div>`;
@@ -275,6 +407,7 @@ function renderIndicationDetailCard(ind) {
     <div class="indication-detail-card">
         <div class="ind-name">${escHtml(ind.indication_name)}</div>
         <div class="ind-icd">${codesHtml || '<span class="text-secondary">لا توجد أكواد ICD-10</span>'}</div>
+        ${specTags ? `<div class="specialty-tags-row mt-8">${specTags}</div>` : ''}
         ${editsHtml}
         ${notesHtml}
         ${infoGrid}
@@ -291,6 +424,9 @@ async function loadIndicationDetail(indId) {
         const res = await fetch(`/api/indication/${indId}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
+        lastDetailData = data;
+        lastDetailType = 'indication';
+        showFilterBar();
         renderIndicationFullDetail(data);
     } catch (err) {
         detailContent.innerHTML = `<div class="no-results">⚠️ حدث خطأ في تحميل البيانات</div>`;
@@ -304,17 +440,27 @@ function renderIndicationFullDetail(ind) {
     const codes = (ind.icd_codes || []);
     const codesHtml = codes.map(c => `<span class="icd-tag">${escHtml(c)}</span>`).join('');
 
+    // Specialty tags
+    const specTags = (ind.specialties || []).map(s =>
+        `<span class="specialty-tag">${s.icon} ${escHtml(s.name_ar)} (${escHtml(s.name_en)})</span>`
+    ).join('');
+
     let html = `
     <div class="detail-header" style="border-right-color: var(--success)">
         <div class="detail-name" style="color: var(--success)">🏥 ${escHtml(ind.indication_name)}</div>
         <div style="margin-top: 8px">${codesHtml}</div>
+        ${specTags ? `<div class="specialty-tags-row mt-8">${specTags}</div>` : ''}
     </div>`;
 
-    const drugs = ind.drugs || [];
-    html += `<h3 class="section-title">💊 الأدوية المتاحة لهذا التشخيص (${drugs.length})</h3>`;
+    // Apply filters to drugs
+    const allDrugs = ind.drugs || [];
+    const drugs = applyDrugFilters(allDrugs);
+    const hiddenCount = allDrugs.length - drugs.length;
+
+    html += `<h3 class="section-title">💊 الأدوية المتاحة لهذا التشخيص (${drugs.length}${hiddenCount > 0 ? ` <span class="filter-note">من أصل ${allDrugs.length} — ${hiddenCount} مخفي بالفلتر</span>` : ''})</h3>`;
 
     if (drugs.length === 0) {
-        html += `<div class="no-results" style="padding:20px">لا توجد أدوية مسجلة لهذا التشخيص</div>`;
+        html += `<div class="no-results" style="padding:20px">${hiddenCount > 0 ? 'جميع الأدوية مخفية بواسطة الفلتر' : 'لا توجد أدوية مسجلة لهذا التشخيص'}</div>`;
     } else {
         for (const drug of drugs) {
             html += renderDrugInIndicationCard(drug);
@@ -337,7 +483,6 @@ function renderDrugInIndicationCard(drug) {
         ? `<div class="notes-box"><span class="notes-label">📝 ملاحظات وضوابط الصرف:</span>${escHtml(drug.notes)}</div>`
         : '';
 
-    // Info grid
     let infoItems = '';
     if (drug.mdd_adults && drug.mdd_adults !== 'NA') {
         infoItems += `<div class="info-box"><div class="info-box-label">💊 الجرعة القصوى (بالغين)</div><div class="info-box-value">${escHtml(drug.mdd_adults)}</div></div>`;
@@ -353,7 +498,6 @@ function renderDrugInIndicationCard(drug) {
     }
     const infoGrid = infoItems ? `<div class="info-grid">${infoItems}</div>` : '';
 
-    // Products (trade names)
     const products = drug.products || [];
     let productsHtml = '';
     if (products.length > 0) {
@@ -460,11 +604,15 @@ function clearResults() {
     resultsSection.style.display = 'none';
     detailSection.style.display = 'none';
     resultsList.innerHTML = '';
+    lastDetailData = null;
+    lastDetailType = null;
     searchInput.focus();
 }
 
 function goBackToResults() {
     detailSection.style.display = 'none';
+    lastDetailData = null;
+    lastDetailType = null;
     if (lastResults) {
         renderResults(lastResults, lastSearchType, lastQuery);
     }
