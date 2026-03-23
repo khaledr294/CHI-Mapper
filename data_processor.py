@@ -14,8 +14,8 @@ import re
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-INDICATION_FILE = os.path.join(BASE_DIR, 'Indication -  ed54_07Dec2025.csv')
-SFDA_FILE = os.path.join(BASE_DIR, 'SFDA Mapping -  ed54_07Dec2025.csv')
+INDICATION_FILE = os.path.join(BASE_DIR, 'Indication -  ed57_02Mar2026.csv')
+SFDA_FILE = os.path.join(BASE_DIR, 'SFDA Mapping -  ed57_02Mar2026.csv')
 DB_FILE = os.path.join(BASE_DIR, 'chi_mapper.db')
 
 
