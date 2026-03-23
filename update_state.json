@@ -1,0 +1,26 @@
+{
+    "current_edition": 57,
+    "date_string": "02Mar2026",
+    "file_url": "https://www.chi.gov.sa/Style%20Library/IDF_Branding/files/CHI%20Drug%20Formulary%20Compilation%20and%20Formatting%20-%20%20ed57_02Mar2026.xlsx",
+    "last_check": "2026-03-23T15:30:42.503444+00:00",
+    "last_update": "2026-03-23T15:30:42.503444+00:00",
+    "update_history": [
+        {
+            "edition": 57,
+            "date_string": "02Mar2026",
+            "updated_at": "2026-03-23T00:00:00"
+        },
+        {
+            "edition": 57,
+            "date_string": "02Mar2026",
+            "updated_at": "2026-03-23T15:30:42.503444+00:00",
+            "stats": {
+                "drugs": 3885,
+                "indications": 567,
+                "products": 7359,
+                "mappings": 22968,
+                "icd_codes": 781
+            }
+        }
+    ]
+}

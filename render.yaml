@@ -7,3 +7,17 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.13
+      - key: ENABLE_AUTO_UPDATE
+        value: true
+      - key: UPDATE_API_KEY
+        generateValue: true
+      - key: UPDATE_NOTIFY_EMAIL
+        value: khaled.ragab294@gmail.com
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587

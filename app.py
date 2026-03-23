@@ -5,7 +5,7 @@ drug-diagnosis combinations with prescribing rules.
 Includes specialty filtering, search filters, and cleaned ICD-10 data.
 """
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Header, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
@@ -13,6 +13,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
+import logging
 from typing import Optional
 
 app = FastAPI(title="CHI Drug-Diagnosis Mapper")
@@ -33,7 +34,19 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 @app.on_event("startup")
 async def startup_event():
-    """Build database on first startup if it doesn't exist."""
+    """Check for updates and build database on startup."""
+    auto_update = os.environ.get('ENABLE_AUTO_UPDATE', 'true').lower() in ('true', '1', 'yes')
+
+    if auto_update:
+        try:
+            from chi_updater import check_and_update
+            updated = check_and_update()
+            if updated:
+                logging.info("Database rebuilt with new edition.")
+                return  # DB was rebuilt by the updater
+        except Exception as e:
+            logging.warning(f"Auto-update check failed: {e}")
+
     if not os.path.exists(DB_PATH):
         print("Database not found. Building from CSV files...")
         from data_processor import build_database
@@ -408,6 +421,41 @@ async def stats():
         return result
     finally:
         conn.close()
+
+
+# ─── Update API ───────────────────────────────────────────
+
+def _verify_api_key(x_api_key: Optional[str] = None):
+    """Verify the API key for protected endpoints."""
+    expected = os.environ.get('UPDATE_API_KEY', '')
+    if not expected:
+        raise HTTPException(status_code=503, detail="Update API not configured (UPDATE_API_KEY not set)")
+    if not x_api_key or x_api_key != expected:
+        raise HTTPException(status_code=403, detail="Invalid API key")
+
+
+@app.post("/api/check-update")
+async def check_update(x_api_key: Optional[str] = Header(None)):
+    """Manually trigger an update check. Requires UPDATE_API_KEY header."""
+    _verify_api_key(x_api_key)
+
+    from chi_updater import run_update
+    result = run_update()
+    return result
+
+
+@app.get("/api/update-status")
+async def update_status():
+    """Return current edition info and update history."""
+    from chi_updater import load_state
+    state = load_state()
+    return {
+        "current_edition": state.get('current_edition'),
+        "date_string": state.get('date_string'),
+        "last_check": state.get('last_check'),
+        "last_update": state.get('last_update'),
+        "history_count": len(state.get('update_history', [])),
+    }
 
 
 if __name__ == "__main__":

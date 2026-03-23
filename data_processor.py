@@ -310,8 +310,16 @@ def classify_icd_to_specialties(icd_code):
 # Main Database Builder
 # ═══════════════════════════════════════════════════════════
 
-def build_database():
-    """Build the SQLite database from CSV files."""
+def build_database(indication_file=None, sfda_file=None):
+    """Build the SQLite database from CSV files.
+    
+    Args:
+        indication_file: Path to Indication CSV. Defaults to INDICATION_FILE constant.
+        sfda_file: Path to SFDA Mapping CSV. Defaults to SFDA_FILE constant.
+    """
+    indication_path = indication_file or INDICATION_FILE
+    sfda_path = sfda_file or SFDA_FILE
+
     print("=" * 60)
     print("CHI Drug-Diagnosis Mapper - Building Database V2")
     print("=" * 60)
@@ -420,8 +428,8 @@ def build_database():
     print("Tables created.\n")
 
     # ─── Read Indication File ────────────────────────────────
-    print("Reading Indication file...")
-    ind_df = pd.read_csv(INDICATION_FILE, dtype=str, keep_default_na=False)
+    print(f"Reading Indication file: {indication_path}")
+    ind_df = pd.read_csv(indication_path, dtype=str, keep_default_na=False)
 
     ind_cols = [
         'indication', 'icd10_codes', 'drug_class', 'drug_subclass',
@@ -551,8 +559,8 @@ def build_database():
     print(f"  Drug-Indication mappings: {mapping_count}")
 
     # ─── Read SFDA File ──────────────────────────────────────
-    print("\nReading SFDA file...")
-    sfda_df = pd.read_csv(SFDA_FILE, dtype=str, keep_default_na=False)
+    print(f"\nReading SFDA file: {sfda_path}")
+    sfda_df = pd.read_csv(sfda_path, dtype=str, keep_default_na=False)
 
     sfda_cols = [
         'register_number', 'reference_number', 'old_register_number',
