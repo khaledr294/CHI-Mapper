@@ -1,0 +1,300 @@
+{
+  "generated_at": "2026-03-23T18:28:12.225369+00:00",
+  "new_edition": 57,
+  "old_edition": 54,
+  "stats_comparison": {
+    "drugs": {
+      "old": 3885,
+      "new": 3885,
+      "diff": 0
+    },
+    "indications": {
+      "old": 567,
+      "new": 567,
+      "diff": 0
+    },
+    "products": {
+      "old": 7359,
+      "new": 7359,
+      "diff": 0
+    },
+    "mappings": {
+      "old": 22968,
+      "new": 22968,
+      "diff": 0
+    },
+    "icd_codes": {
+      "old": 781,
+      "new": 781,
+      "diff": 0
+    }
+  },
+  "new_drugs": [
+    {
+      "name": "BENZTROPINE",
+      "drug_class": "ANTIPARKINSON AGENT"
+    },
+    {
+      "name": "CARIPRAZINE HYDROCHLORIDE",
+      "drug_class": "ANTIPSYCHOTICS"
+    },
+    {
+      "name": "CHLORPROMAZINE HYDROCHLORIDE",
+      "drug_class": "ANTIPSYCHOTICS"
+    },
+    {
+      "name": "EFGARTIGIMOD ALFA",
+      "drug_class": "IMMUNOMODULATOR"
+    },
+    {
+      "name": "EPTIFIBATIDE",
+      "drug_class": "ANTIPLATELET AGENT"
+    },
+    {
+      "name": "ESKETAMINE HYDROCHLORIDE",
+      "drug_class": "ANTIDEPRESSANTS"
+    },
+    {
+      "name": "FERROUS FUMARATE",
+      "drug_class": "IRON PREPARATIONS"
+    },
+    {
+      "name": "LECANEMAB",
+      "drug_class": "MONOCLONAL ANTIBODY"
+    },
+    {
+      "name": "MIRIKIZUMAB",
+      "drug_class": "MONOCLONAL ANTIBODY"
+    },
+    {
+      "name": "SOTATERCEPT",
+      "drug_class": "ACTIVIN RECEPTOR LIGAND TRAP"
+    },
+    {
+      "name": "TADALAFIL, MACITENTAN",
+      "drug_class": "ENDOTHELIN RECEPTOR ANTAGONIST;PHOSPHODIESTERASE-5 ENZYME INHIBITOR;VASODILATOR"
+    }
+  ],
+  "removed_drugs": [
+    {
+      "name": "BENZATROPINE"
+    },
+    {
+      "name": "CLOSTRIDIUM BOTULINUM NEUROTOXIN  A COMPLEX"
+    },
+    {
+      "name": "MAPROTILINE HYDROCHLORIDE"
+    },
+    {
+      "name": "NINTEDANIB"
+    }
+  ],
+  "new_indications": [
+    {
+      "name": "DIABETIC MACULAR EDEMA (DME)"
+    },
+    {
+      "name": "MYASTHENIA GRAVIS - ADULT IMMUNIZATION"
+    }
+  ],
+  "removed_indications": [
+    {
+      "name": "SCLERODERMA"
+    },
+    {
+      "name": "SCLERODERMA - ADULT IMMUNIZATION"
+    },
+    {
+      "name": "SCLERODERMA - CONSTIPATION"
+    },
+    {
+      "name": "SCLERODERMA - DIARRHEA"
+    },
+    {
+      "name": "SCLERODERMA - DIGITAL ULCERS"
+    },
+    {
+      "name": "SCLERODERMA - EPILEPSY"
+    },
+    {
+      "name": "SCLERODERMA - GERD"
+    },
+    {
+      "name": "SCLERODERMA - HYPERTENSION"
+    },
+    {
+      "name": "SCLERODERMA - MYOSITIS"
+    },
+    {
+      "name": "SCLERODERMA - PAIN"
+    },
+    {
+      "name": "SCLERODERMA - PULMONARY ARTERIAL HYPERTENSION"
+    },
+    {
+      "name": "SCLERODERMA - RAYNAUD'S PHENOMENON"
+    },
+    {
+      "name": "SCLERODERMA WITH LUNG INVOLVEMENT"
+    }
+  ],
+  "new_products": [
+    {
+      "name": "ABILIFY ASIMTUFII"
+    },
+    {
+      "name": "ACICLOVIR DAWAA HEALTH"
+    },
+    {
+      "name": "ALATRIPT"
+    },
+    {
+      "name": "ALUMID"
+    },
+    {
+      "name": "AMBRISENTAN GENEPHARM"
+    },
+    {
+      "name": "ANAZOL 125MG-5ML SUSP."
+    },
+    {
+      "name": "AROX 0.5% EYE DROPS"
+    },
+    {
+      "name": "AZI-ONCE 500MG F.C.TABLET"
+    },
+    {
+      "name": "BAUDA"
+    },
+    {
+      "name": "BEDAMUSE"
+    },
+    {
+      "name": "BERGO"
+    },
+    {
+      "name": "BILAZAP"
+    },
+    {
+      "name": "BOTZBENAV"
+    },
+    {
+      "name": "BRILINTA 60 MG FILM COATED TABLET"
+    },
+    {
+      "name": "BUPIVACAINE FOR SPINAL ANESTHESIA AGUETTANT"
+    },
+    {
+      "name": "BUTAFYL"
+    },
+    {
+      "name": "BYANNLI"
+    },
+    {
+      "name": "BYRAZA PLUS"
+    },
+    {
+      "name": "CALPRIME"
+    },
+    {
+      "name": "CALSYR SYRUP"
+    },
+    {
+      "name": "CIPRO-SOL 200MG /100 ML BAG"
+    },
+    {
+      "name": "CLUSTEK"
+    },
+    {
+      "name": "CO AMOX 1000MG F.C. TABLETS"
+    },
+    {
+      "name": "COGUPERIN 20 MG PER 0.2 ML"
+    },
+    {
+      "name": "CRONOXAM"
+    },
+    {
+      "name": "DAMESTA 20MG F.C.TABLET"
+    },
+    {
+      "name": "DEFERAJUB"
+    },
+    {
+      "name": "DEMAX"
+    },
+    {
+      "name": "DENSIBON"
+    },
+    {
+      "name": "DEXDOR"
+    },
+    {
+      "name": "DEXIPAN 5% CREAM"
+    },
+    {
+      "name": "DEXMEDETOMIDINE PSI"
+    },
+    {
+      "name": "DEXTROSE"
+    },
+    {
+      "name": "DEXTROSE AND SODIUM CHLORIDE INJECTION USP"
+    },
+    {
+      "name": "DIGATRA"
+    },
+    {
+      "name": "DIXEE"
+    },
+    {
+      "name": "DORMICUM 15MG-3ML AMP."
+    },
+    {
+      "name": "ELEPTAN"
+    },
+    {
+      "name": "ELIFLOX"
+    },
+    {
+      "name": "EMPAMAC"
+    },
+    {
+      "name": "EMPANI"
+    },
+    {
+      "name": "EPIPEN 150 MCG PER 0.3 ML"
+    },
+    {
+      "name": "EPTIFIBATIDE HAINAN"
+    },
+    {
+      "name": "FERROUS FUMARATE"
+    },
+    {
+      "name": "FLUOROURACIL EBEWE 1000MG/20ML"
+    },
+    {
+      "name": "FLUOROURACIL EBEWE 5000MG/100ML"
+    },
+    {
+      "name": "FLUOROURACIL EBEWE 500MG/10ML"
+    },
+    {
+      "name": "FLUXETYL"
+    },
+    {
+      "name": "FOVLYA"
+    },
+    {
+      "name": "GLOXIB"
+    }
+  ],
+  "summary": {
+    "new_drugs_count": 11,
+    "removed_drugs_count": 4,
+    "new_indications_count": 2,
+    "removed_indications_count": 13,
+    "new_products_count": 146
+  }
+}

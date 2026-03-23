@@ -105,9 +105,28 @@
 
 </main>
 
+<!-- ═══ Changelog Panel ═══ -->
+<div id="changelog-overlay" class="changelog-overlay" onclick="closeChangelog()" style="display:none"></div>
+<aside id="changelog-panel" class="changelog-panel" style="display:none">
+    <div class="changelog-header">
+        <h2>📋 سجل التحديثات</h2>
+        <button class="changelog-close" onclick="closeChangelog()">✕</button>
+    </div>
+    <div id="changelog-content" class="changelog-content">
+        <div class="loading"><div class="spinner"></div><span>جاري التحميل...</span></div>
+    </div>
+</aside>
+
 <!-- ═══ Footer ═══ -->
 <footer>
-    <p>CHI Drug-Diagnosis Mapper &bull; Ed57 - Mar 2026 &bull; للاستخدام الطبي فقط</p>
+    <p>
+        CHI Drug-Diagnosis Mapper &bull; Ed57 - Mar 2026 &bull; للاستخدام الطبي فقط
+        <br>
+        <span id="footer-update-info" class="footer-update-info"></span>
+        <button id="changelog-btn" class="changelog-btn" onclick="openChangelog()" style="display:none">
+            📋 سجل التحديثات
+        </button>
+    </p>
 </footer>
 
 <script src="/static/js/app.js"></script>

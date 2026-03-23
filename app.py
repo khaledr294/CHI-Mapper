@@ -463,6 +463,22 @@ async def update_status():
     }
 
 
+@app.get("/api/changelog")
+async def get_changelog():
+    """Return the latest changelog with edition comparison data."""
+    from chi_updater import load_changelog, load_state
+    changelog = load_changelog()
+    state = load_state()
+
+    return {
+        "changelog": changelog,
+        "current_edition": state.get('current_edition'),
+        "date_string": state.get('date_string'),
+        "last_check": state.get('last_check'),
+        "last_update": state.get('last_update'),
+    }
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))

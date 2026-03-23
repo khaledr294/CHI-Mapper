@@ -905,3 +905,243 @@ footer {
 .mb-8 { margin-bottom: 8px; }
 .fw-bold { font-weight: 700; }
 .fs-sm { font-size: var(--font-sm); }
+
+/* ─── Changelog Panel ───────────────────────────────── */
+.changelog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.2s ease;
+}
+
+.changelog-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(480px, 90vw);
+    height: 100vh;
+    background: var(--card-bg);
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    animation: slideInRight 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.changelog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    flex-shrink: 0;
+}
+
+.changelog-header h2 {
+    font-size: var(--font-lg);
+    margin: 0;
+}
+
+.changelog-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition);
+}
+
+.changelog-close:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.changelog-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+}
+
+.changelog-edition-title {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.changelog-date {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.changelog-section {
+    margin-bottom: 24px;
+}
+
+.changelog-section-title {
+    font-size: var(--font-base);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.changelog-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.changelog-stat-card {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    text-align: center;
+}
+
+.changelog-stat-card .stat-label {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.changelog-stat-card .stat-values {
+    font-size: var(--font-sm);
+    color: var(--text);
+    direction: ltr;
+    margin-bottom: 4px;
+}
+
+.changelog-stat-card .stat-diff {
+    font-size: var(--font-base);
+    font-weight: 700;
+    direction: ltr;
+}
+
+.changelog-stat-card .stat-diff.positive { color: var(--success); }
+.changelog-stat-card .stat-diff.negative { color: var(--danger); }
+.changelog-stat-card .stat-diff.neutral { color: var(--text-secondary); }
+
+.changelog-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.changelog-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition);
+}
+
+.changelog-item:hover {
+    background: var(--bg);
+}
+
+.changelog-item .item-icon {
+    font-size: 18px;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+.changelog-item .item-name {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    color: var(--text);
+    direction: ltr;
+    text-align: left;
+}
+
+.changelog-item .item-detail {
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    margin-top: 2px;
+    direction: ltr;
+    text-align: left;
+}
+
+.changelog-item.new-item {
+    border-right: 3px solid var(--success);
+}
+
+.changelog-item.removed-item {
+    border-right: 3px solid var(--danger);
+    opacity: 0.8;
+}
+
+.changelog-more {
+    padding: 8px 14px;
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.changelog-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+    font-size: var(--font-base);
+}
+
+/* Footer update info & button */
+.footer-update-info {
+    font-size: var(--font-xs);
+    color: var(--text-light);
+    display: block;
+    margin-top: 4px;
+}
+
+.changelog-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: var(--font-xs);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background var(--transition);
+    font-family: inherit;
+}
+
+.changelog-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* Responsive changelog */
+@media (max-width: 700px) {
+    .changelog-panel {
+        width: 100vw;
+    }
+
+    .changelog-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

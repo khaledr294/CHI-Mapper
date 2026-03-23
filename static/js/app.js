@@ -619,3 +619,206 @@ function goBackToResults() {
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+// ═══ Changelog & Update Status ═══════════════════════
+async function loadUpdateStatus() {
+    try {
+        const res = await fetch('/api/changelog');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        // Show last check time in footer
+        const infoEl = document.getElementById('footer-update-info');
+        if (infoEl && data.last_check) {
+            const checkDate = new Date(data.last_check);
+            const timeStr = checkDate.toLocaleDateString('ar-SA', {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            infoEl.textContent = `آخر فحص للتحديثات: ${timeStr}`;
+        }
+
+        // Show changelog button if changelog exists
+        const btn = document.getElementById('changelog-btn');
+        if (btn && data.changelog) {
+            btn.style.display = 'inline-block';
+        }
+    } catch (e) { /* silent */ }
+}
+
+function openChangelog() {
+    const overlay = document.getElementById('changelog-overlay');
+    const panel = document.getElementById('changelog-panel');
+    if (overlay) overlay.style.display = 'block';
+    if (panel) panel.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    loadChangelogContent();
+}
+
+function closeChangelog() {
+    const overlay = document.getElementById('changelog-overlay');
+    const panel = document.getElementById('changelog-panel');
+    if (overlay) overlay.style.display = 'none';
+    if (panel) panel.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+async function loadChangelogContent() {
+    const container = document.getElementById('changelog-content');
+    if (!container) return;
+
+    container.innerHTML = '<div class="loading"><div class="spinner"></div><span>جاري التحميل...</span></div>';
+
+    try {
+        const res = await fetch('/api/changelog');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const cl = data.changelog;
+
+        if (!cl) {
+            container.innerHTML = '<div class="changelog-empty">لا يوجد سجل تحديثات متاح بعد.</div>';
+            return;
+        }
+
+        let html = '';
+
+        // Edition header
+        const edTitle = cl.old_edition
+            ? `التغييرات من Ed${cl.old_edition} إلى Ed${cl.new_edition}`
+            : `النسخة الحالية: Ed${cl.new_edition}`;
+        html += `<div class="changelog-edition-title">${edTitle}</div>`;
+
+        // Generated date
+        if (cl.generated_at) {
+            const genDate = new Date(cl.generated_at);
+            html += `<div class="changelog-date">🕐 ${genDate.toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>`;
+        }
+
+        // Stats comparison
+        if (cl.stats_comparison && Object.keys(cl.stats_comparison).length > 0) {
+            html += '<div class="changelog-section">';
+            html += '<h3 class="changelog-section-title">📊 مقارنة الإحصائيات</h3>';
+            html += '<div class="changelog-stats-grid">';
+            const statLabels = {
+                drugs: '💊 الأدوية',
+                indications: '🏥 الاستطبابات',
+                products: '📦 المنتجات',
+                mappings: '🔗 الربط',
+                icd_codes: '🏷️ أكواد ICD-10'
+            };
+            for (const [key, label] of Object.entries(statLabels)) {
+                const s = cl.stats_comparison[key];
+                if (s) {
+                    const diffClass = s.diff > 0 ? 'positive' : s.diff < 0 ? 'negative' : 'neutral';
+                    const diffText = s.diff > 0 ? `+${s.diff}` : s.diff.toString();
+                    html += `<div class="changelog-stat-card">
+                        <div class="stat-label">${label}</div>
+                        <div class="stat-values">${s.old.toLocaleString()} → ${s.new.toLocaleString()}</div>
+                        <div class="stat-diff ${diffClass}">${diffText}</div>
+                    </div>`;
+                }
+            }
+            html += '</div></div>';
+        }
+
+        // New drugs
+        if (cl.new_drugs && cl.new_drugs.length > 0) {
+            html += '<div class="changelog-section">';
+            html += `<h3 class="changelog-section-title">🆕 أدوية جديدة (${cl.new_drugs.length})</h3>`;
+            html += '<div class="changelog-items">';
+            for (const drug of cl.new_drugs) {
+                html += `<div class="changelog-item new-item">
+                    <span class="item-icon">💊</span>
+                    <div class="item-content">
+                        <div class="item-name">${escHtml(drug.name)}</div>
+                        ${drug.drug_class ? `<div class="item-detail">${escHtml(drug.drug_class)}</div>` : ''}
+                    </div>
+                </div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // Removed drugs
+        if (cl.removed_drugs && cl.removed_drugs.length > 0) {
+            html += '<div class="changelog-section">';
+            html += `<h3 class="changelog-section-title">🗑️ أدوية محذوفة (${cl.removed_drugs.length})</h3>`;
+            html += '<div class="changelog-items">';
+            for (const drug of cl.removed_drugs) {
+                html += `<div class="changelog-item removed-item">
+                    <span class="item-icon">❌</span>
+                    <div class="item-content">
+                        <div class="item-name">${escHtml(drug.name)}</div>
+                    </div>
+                </div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // New indications
+        if (cl.new_indications && cl.new_indications.length > 0) {
+            html += '<div class="changelog-section">';
+            html += `<h3 class="changelog-section-title">🏥 استطبابات جديدة (${cl.new_indications.length})</h3>`;
+            html += '<div class="changelog-items">';
+            for (const ind of cl.new_indications) {
+                html += `<div class="changelog-item new-item">
+                    <span class="item-icon">✅</span>
+                    <div class="item-content">
+                        <div class="item-name">${escHtml(ind.name)}</div>
+                    </div>
+                </div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // Removed indications
+        if (cl.removed_indications && cl.removed_indications.length > 0) {
+            html += '<div class="changelog-section">';
+            html += `<h3 class="changelog-section-title">🗑️ استطبابات محذوفة (${cl.removed_indications.length})</h3>`;
+            html += '<div class="changelog-items">';
+            for (const ind of cl.removed_indications) {
+                html += `<div class="changelog-item removed-item">
+                    <span class="item-icon">❌</span>
+                    <div class="item-content">
+                        <div class="item-name">${escHtml(ind.name)}</div>
+                    </div>
+                </div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // New products
+        if (cl.new_products && cl.new_products.length > 0) {
+            html += '<div class="changelog-section">';
+            html += `<h3 class="changelog-section-title">📦 منتجات تجارية جديدة (${cl.summary?.new_products_count || cl.new_products.length})</h3>`;
+            html += '<div class="changelog-items">';
+            for (const p of cl.new_products) {
+                html += `<div class="changelog-item new-item">
+                    <span class="item-icon">📦</span>
+                    <div class="item-content">
+                        <div class="item-name">${escHtml(p.name)}</div>
+                    </div>
+                </div>`;
+            }
+            if (cl.summary?.new_products_count > cl.new_products.length) {
+                html += `<div class="changelog-more">... و${cl.summary.new_products_count - cl.new_products.length} منتج آخر</div>`;
+            }
+            html += '</div></div>';
+        }
+
+        // No changes detected
+        if (!cl.new_drugs?.length && !cl.removed_drugs?.length &&
+            !cl.new_indications?.length && !cl.removed_indications?.length &&
+            !cl.new_products?.length) {
+            html += '<div class="changelog-empty">لم يتم رصد تغييرات جوهرية في هذا التحديث.</div>';
+        }
+
+        container.innerHTML = html;
+    } catch (e) {
+        container.innerHTML = '<div class="changelog-empty">⚠️ حدث خطأ في تحميل سجل التحديثات</div>';
+    }
+}
+
+// Load update status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadUpdateStatus();
+});

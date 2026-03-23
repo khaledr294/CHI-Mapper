@@ -389,6 +389,135 @@ def update_footer(edition_num, date_str):
 
 
 # ═══════════════════════════════════════════════════════════
+# Changelog Generation
+# ═══════════════════════════════════════════════════════════
+
+CHANGELOG_FILE = os.path.join(BASE_DIR, 'changelog.json')
+
+
+def generate_changelog(new_ind_csv, new_sfda_csv, old_ind_csv, old_sfda_csv,
+                       new_edition, old_edition, new_stats=None, old_stats=None):
+    """
+    Compare old and new CSVs to generate a detailed changelog.
+    Returns a changelog dict and saves it to changelog.json.
+    """
+    logger.info("Generating changelog...")
+
+    changelog = {
+        'generated_at': datetime.now(timezone.utc).isoformat(),
+        'new_edition': new_edition,
+        'old_edition': old_edition,
+        'stats_comparison': {},
+        'new_drugs': [],
+        'removed_drugs': [],
+        'new_indications': [],
+        'removed_indications': [],
+        'new_products': [],
+        'summary': {},
+    }
+
+    try:
+        # Read new CSVs
+        new_ind = pd.read_csv(new_ind_csv, dtype=str, keep_default_na=False)
+        new_sfda = pd.read_csv(new_sfda_csv, dtype=str, keep_default_na=False)
+
+        # Read old CSVs (if they exist)
+        if old_ind_csv and os.path.exists(old_ind_csv) and old_sfda_csv and os.path.exists(old_sfda_csv):
+            old_ind = pd.read_csv(old_ind_csv, dtype=str, keep_default_na=False)
+            old_sfda = pd.read_csv(old_sfda_csv, dtype=str, keep_default_na=False)
+        else:
+            logger.info("No old CSVs found — generating stats-only changelog.")
+            _save_changelog(changelog)
+            return changelog
+
+        # --- Scientific Names (drugs) ---
+        # Indication CSV: col 0=indication, col 5=scientific_name, col 2=drug_class
+        new_sci = set(new_ind.iloc[:, 5].str.strip().str.upper()) - {''}
+        old_sci = set(old_ind.iloc[:, 5].str.strip().str.upper()) - {''}
+        added_sci = sorted(new_sci - old_sci)
+        removed_sci = sorted(old_sci - new_sci)
+
+        # Get drug class for new drugs (col 2 = drug class)
+        sci_to_class = {}
+        for _, row in new_ind.iterrows():
+            name = str(row.iloc[5]).strip().upper()
+            if name and name in (new_sci - old_sci):
+                drug_class = str(row.iloc[2]).strip()
+                if drug_class and name not in sci_to_class:
+                    sci_to_class[name] = drug_class
+
+        changelog['new_drugs'] = [
+            {'name': s, 'drug_class': sci_to_class.get(s, '')}
+            for s in added_sci
+        ]
+        changelog['removed_drugs'] = [{'name': s} for s in removed_sci]
+
+        # --- Indications ---
+        new_indications = set(new_ind.iloc[:, 0].str.strip().str.upper()) - {''}
+        old_indications = set(old_ind.iloc[:, 0].str.strip().str.upper()) - {''}
+        added_ind = sorted(new_indications - old_indications)
+        removed_ind = sorted(old_indications - new_indications)
+
+        changelog['new_indications'] = [{'name': i} for i in added_ind]
+        changelog['removed_indications'] = [{'name': i} for i in removed_ind]
+
+        # --- Products (SFDA) ---
+        new_trades = set(new_sfda.iloc[:, 8].str.strip().str.upper()) - {''}
+        old_trades = set(old_sfda.iloc[:, 8].str.strip().str.upper()) - {''}
+        added_trades = sorted(new_trades - old_trades)
+
+        changelog['new_products'] = [{'name': t} for t in added_trades[:50]]
+
+        # --- Stats comparison ---
+        if new_stats and old_stats:
+            for key in ['drugs', 'indications', 'products', 'mappings', 'icd_codes']:
+                new_val = new_stats.get(key, 0)
+                old_val = old_stats.get(key, 0)
+                changelog['stats_comparison'][key] = {
+                    'old': old_val,
+                    'new': new_val,
+                    'diff': new_val - old_val,
+                }
+
+        # --- Summary ---
+        changelog['summary'] = {
+            'new_drugs_count': len(added_sci),
+            'removed_drugs_count': len(removed_sci),
+            'new_indications_count': len(added_ind),
+            'removed_indications_count': len(removed_ind),
+            'new_products_count': len(added_trades),
+        }
+
+        logger.info(
+            f"Changelog: +{len(added_sci)} drugs, -{len(removed_sci)} drugs, "
+            f"+{len(added_ind)} indications, -{len(removed_ind)} indications, "
+            f"+{len(added_trades)} products"
+        )
+
+    except Exception as e:
+        logger.error(f"Changelog generation error: {e}")
+        changelog['error'] = str(e)
+
+    _save_changelog(changelog)
+    return changelog
+
+
+def _save_changelog(changelog):
+    """Save changelog to JSON file."""
+    with open(CHANGELOG_FILE, 'w', encoding='utf-8') as f:
+        json.dump(changelog, f, indent=2, ensure_ascii=False)
+    logger.info(f"Changelog saved to {CHANGELOG_FILE}")
+
+
+def load_changelog():
+    """Load the latest changelog from file."""
+    if os.path.exists(CHANGELOG_FILE):
+        with open(CHANGELOG_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return None
+
+
+# ═══════════════════════════════════════════════════════════
 # Data Processor Integration
 # ═══════════════════════════════════════════════════════════
 
@@ -568,6 +697,28 @@ def run_update(force_edition=None):
         if stats and stats['drugs'] < 1000:
             logger.error(f"Database verification failed: only {stats['drugs']} drugs (expected >3000)")
             return {'status': 'error', 'details': f"DB verification failed: {stats['drugs']} drugs"}
+
+        # Step 5b: Generate changelog (compare old vs new)
+        old_stats = None
+        old_ind_csv = None
+        old_sfda_csv = None
+        if state.get('update_history'):
+            last_entry = state['update_history'][-1]
+            old_stats = last_entry.get('stats')
+            old_ed = last_entry.get('edition', state.get('current_edition'))
+            old_ds = last_entry.get('date_string', state.get('date_string'))
+            old_ind_csv = os.path.join(BASE_DIR, f"Indication -  ed{old_ed}_{old_ds}.csv")
+            old_sfda_csv = os.path.join(BASE_DIR, f"SFDA Mapping -  ed{old_ed}_{old_ds}.csv")
+
+        try:
+            generate_changelog(
+                new_ind_csv=ind_csv, new_sfda_csv=sfda_csv,
+                old_ind_csv=old_ind_csv, old_sfda_csv=old_sfda_csv,
+                new_edition=edition_num, old_edition=state.get('current_edition'),
+                new_stats=stats, old_stats=old_stats
+            )
+        except Exception as e:
+            logger.warning(f"Changelog generation failed (non-fatal): {e}")
 
         # Step 6: Update footer
         update_footer(edition_num, date_str)
