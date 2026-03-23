@@ -34,24 +34,29 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 @app.on_event("startup")
 async def startup_event():
-    """Check for updates and build database on startup."""
-    auto_update = os.environ.get('ENABLE_AUTO_UPDATE', 'true').lower() in ('true', '1', 'yes')
-
-    if auto_update:
-        try:
-            from chi_updater import check_and_update
-            updated = check_and_update()
-            if updated:
-                logging.info("Database rebuilt with new edition.")
-                return  # DB was rebuilt by the updater
-        except Exception as e:
-            logging.warning(f"Auto-update check failed: {e}")
-
+    """Build database if needed, then schedule update check in background."""
+    # Always ensure DB exists first so the server can start serving immediately
     if not os.path.exists(DB_PATH):
         print("Database not found. Building from CSV files...")
         from data_processor import build_database
         build_database()
         print("Database ready.")
+
+    # Schedule auto-update check in background (non-blocking)
+    auto_update = os.environ.get('ENABLE_AUTO_UPDATE', 'true').lower() in ('true', '1', 'yes')
+    if auto_update:
+        import threading
+        def _background_update():
+            try:
+                from chi_updater import check_and_update
+                updated = check_and_update()
+                if updated:
+                    logging.info("Database rebuilt with new edition in background.")
+            except Exception as e:
+                logging.warning(f"Background auto-update failed: {e}")
+        thread = threading.Thread(target=_background_update, daemon=True)
+        thread.start()
+        logging.info("Auto-update check started in background.")
 
 
 def get_db():
