@@ -1,0 +1,12 @@
+============================================================
+CHI Drug-Diagnosis Mapper - Building Database V3 (Final)
+============================================================
+Removed existing database.
+Reading DDF file: D:\CHI-Mapper\Latest 1-10-2026\CHI Drug Formulary ed59_20JAug2026.xlsx
+Loaded 25674 valid DDF rows.
+Reading HDL file: D:\CHI-Mapper\Latest 1-10-2026\Human Drug List 4-2026.xlsx
+Added 2491 additional products from HDL.
+Loading Formulary Changes...
+Reading Active Ingredients file: D:\CHI-Mapper\Latest 1-10-2026\CHI Active Ingredient ed21_23Feb26.xlsx
+Added 0 covered ingredients.
+Database built successfully!

@@ -1,6 +1,7 @@
 """
-CHI Drug-Diagnosis Mapper - Data Processor V3
-Implements the optimization plan schema and fixes ICD parsing logic.
+CHI Drug-Diagnosis Mapper - Data Processor V3 (Final)
+Implements the optimization plan schema, fixes ICD parsing logic,
+and parses prescribing edits into structured rules.
 """
 
 import pandas as pd
@@ -8,11 +9,12 @@ import sqlite3
 import os
 import re
 import hashlib
+import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 INDICATION_FILE = os.path.join(BASE_DIR, 'Latest 1-10-2026', 'CHI Drug Formulary ed59_20JAug2026.xlsx')
-SFDA_MAPPED_FILE = os.path.join(BASE_DIR, 'Latest 1-10-2026', 'CHI Drug Formulary ed59_20JAug2026.xlsx') # Note: actually in the third sheet of this file, wait, or we use the HDL?
+SFDA_MAPPED_FILE = os.path.join(BASE_DIR, 'Latest 1-10-2026', 'CHI Drug Formulary ed59_20JAug2026.xlsx')
 HDL_FILE = os.path.join(BASE_DIR, 'Latest 1-10-2026', 'Human Drug List 4-2026.xlsx')
 ACTIVE_INGREDIENT_FILE = os.path.join(BASE_DIR, 'Latest 1-10-2026', 'CHI Active Ingredient ed21_23Feb26.xlsx')
 
@@ -38,11 +40,6 @@ def expand_icd_range(range_str):
     return [f"{letter1}{i:02d}" for i in range(num1, num2 + 1)]
 
 def parse_icd_string(raw_icd):
-    """
-    Parses ICD string into OR groups, each containing AND items.
-    Returns: list of groups (lists of (code, is_parent))
-    Example: '(E85.4; I43.1), I50*' -> [[('E85.4', 0), ('I43.1', 0)], [('I50', 1)]]
-    """
     if not raw_icd or pd.isna(raw_icd) or str(raw_icd).strip() == '':
         return []
     
@@ -98,22 +95,108 @@ def parse_icd_string(raw_icd):
 # ═══════════════════════════════════════════════════════════
 # Prescribing Edits Parsing
 # ═══════════════════════════════════════════════════════════
-def parse_edits_from_notes(notes):
-    if not notes or pd.isna(notes) or str(notes).strip() == '':
-        return []
-    notes = str(notes).strip()
-    prefixes = ['ST:', 'CU:', 'MD:', 'PA:', 'PE:', 'QL:', 'AGE:', 'G:', 'EU:']
-    pattern = r'(' + '|'.join(prefixes) + r')\s*(.*?)(?=(?:' + '|'.join(prefixes) + r')|$)'
-    matches = re.findall(pattern, notes, flags=re.DOTALL | re.IGNORECASE)
+
+def parse_edits(prescribing_edits, notes):
+    pe = str(prescribing_edits).upper().strip() if pd.notna(prescribing_edits) else ''
+    notes = str(notes).strip() if pd.notna(notes) else ''
+    notes_upper = notes.upper()
+    
+    expected_codes = re.findall(r'[A-Z]+', pe)
+    valid_codes = {'ST', 'CU', 'MD', 'PA', 'PE', 'QL', 'AGE', 'G', 'EU'}
+    expected_codes = [c for c in expected_codes if c in valid_codes]
     
     edits = []
-    if matches:
-        for prefix, text in matches:
-            edits.append({
-                'code': prefix.upper().replace(':', ''),
-                'text': text.strip()
-            })
+    found_codes = set()
+    
+    for code in expected_codes:
+        if code in found_codes: continue
+        # Find prefix in notes. Handle G specially to avoid 'WARNING:', 'SCREENING:', etc.
+        if code == 'G':
+            # Looking for G: but not preceded by IN
+            match = re.search(r'(?<!IN)G\s*:(.*?)(?=(?:' + '|'.join(c+r'\s*:' for c in valid_codes) + r')|$)', notes_upper, re.DOTALL)
+        else:
+            match = re.search(re.escape(code) + r'\s*:(.*?)(?=(?:' + '|'.join(c+r'\s*:' for c in valid_codes) + r')|$)', notes_upper, re.DOTALL)
+            
+        if match:
+            start_idx = match.start(1)
+            end_idx = match.end(1)
+            text = notes[start_idx:end_idx].strip()
+            edits.append({'code': code, 'text': text, 'source': 'COLUMN'})
+            found_codes.add(code)
+        else:
+            # Code is in column but not in notes
+            edits.append({'code': code, 'text': '', 'source': 'COLUMN_ONLY'})
+            found_codes.add(code)
+            
+    # Also look for prefixes in notes that weren't in column
+    for code in valid_codes:
+        if code in found_codes: continue
+        # Must be strictly separated to avoid false positives
+        if code == 'G':
+            match = re.search(r'(?:^|[^A-Z0-9])G\s*:(.*?)(?=(?:' + '|'.join(c+r'\s*:' for c in valid_codes) + r')|$)', notes_upper, re.DOTALL)
+        else:
+            match = re.search(r'(?:^|[^A-Z0-9])' + re.escape(code) + r'\s*:(.*?)(?=(?:' + '|'.join(c+r'\s*:' for c in valid_codes) + r')|$)', notes_upper, re.DOTALL)
+        if match:
+            start_idx = match.start(1)
+            end_idx = match.end(1)
+            text = notes[start_idx:end_idx].strip()
+            edits.append({'code': code, 'text': text, 'source': 'NOTES_ONLY'})
+            
     return edits
+
+def parse_rule_json(code, text, mdd_adult_str=""):
+    j = {}
+    text_u = text.upper()
+    if code == 'AGE':
+        if re.search(r'BELOW\s+12|UNDER\s+12|LESS\s+THAN\s+12', text_u): j['min_age'] = 12
+        elif re.search(r'PEDIATRIC', text_u): j['min_age'] = 18
+        elif re.search(r'65\s+YEARS.*(BEERS|AVOID)', text_u): j['caution_age'] = 65
+        m_kg = re.search(r'LESS\s+THAN\s+(\d+)\s*KG', text_u)
+        if m_kg: j['min_weight_kg'] = int(m_kg.group(1))
+    elif code == 'G':
+        if re.search(r'FEMALE', text_u): j['gender'] = 'F'
+        elif re.search(r'MALE', text_u): j['gender'] = 'M'
+        if re.search(r'PREGNAN|CHILD\s+BEARING', text_u): j['pregnancy_caution'] = True
+    elif code == 'MD':
+        specs = []
+        if 'ONCOLOG' in text_u: specs.append('ONCOLOGY')
+        if 'PSYCHIAT' in text_u: specs.append('PSYCHIATRY')
+        if 'DERMATOLOG' in text_u: specs.append('DERMATOLOGY')
+        if 'INFECTIOUS' in text_u: specs.append('INFECTIOUS')
+        if 'EMERGENCY' in text_u: specs.append('EMERGENCY')
+        if 'CRITICAL CARE' in text_u: specs.append('CRITICAL_CARE')
+        if 'PAIN SPECIALIST' in text_u: specs.append('PAIN_SPECIALIST')
+        if 'ORTHOPEDIC' in text_u: specs.append('ORTHOPEDICS')
+        if 'INTERNAL MEDICINE' in text_u: specs.append('INTERNAL')
+        if specs: j['specialties'] = specs
+    elif code == 'QL':
+        m_day = re.search(r'(\d+)[- ]DAY|REASSESS.*IN.*(\d+)\s*DAY', text_u)
+        m_hr = re.search(r'(\d+)\s*HRS?', text_u)
+        m_wk = re.search(r'(\d+)[- ]WEEK', text_u)
+        m_mo = re.search(r'(\d+)[- ]MONTH', text_u)
+        if m_day: j['max_days'] = int(m_day.group(1) or m_day.group(2))
+        elif m_hr: j['max_days'] = max(1, int(m_hr.group(1)) // 24)
+        elif m_wk: j['max_days'] = int(m_wk.group(1)) * 7
+        elif m_mo: j['max_days'] = int(m_mo.group(1)) * 30
+        
+        m_dose = re.search(r'MAXIMUM DOSE.*?(\d+)\s*G/DAY', text_u)
+        if m_dose: j['max_daily_mg'] = int(m_dose.group(1)) * 1000
+    
+    # Try parsing MDD string if present
+    if mdd_adult_str and not j.get('max_daily_mg'):
+        mdd_u = mdd_adult_str.upper()
+        m_mg = re.search(r'(\d+)\s*MG', mdd_u)
+        m_g = re.search(r'(\d+)\s*G', mdd_u)
+        if m_mg: j['mdd_adult_mg'] = int(m_mg.group(1))
+        elif m_g: j['mdd_adult_mg'] = int(m_g.group(1)) * 1000
+        
+    return json.dumps(j) if j else None
+
+def get_therapy_tier(edits):
+    codes = [e['code'] for e in edits]
+    if 'PA' in codes: return 3
+    if 'ST' in codes: return 2
+    return 1
 
 # ═══════════════════════════════════════════════════════════
 # Specialty Configuration (ICD-10 chapter-based)
@@ -139,6 +222,10 @@ SPECIALTY_CONFIG = {
     'ENDOCRINOLOGY': {'name_ar': 'غدد صماء', 'name_en': 'Endocrinology', 'icon': '⚗️', 'categories': ['E']},
     'NEPHROLOGY': {'name_ar': 'كلى', 'name_en': 'Nephrology', 'icon': '🫘', 'categories': ['N0', 'N1', 'N2']},
     'RHEUMATOLOGY': {'name_ar': 'روماتيزم', 'name_en': 'Rheumatology', 'icon': '🦴', 'categories': ['M0', 'M1', 'M3', 'M4', 'M5']},
+    'INFECTIOUS': {'name_ar': 'أمراض معدية', 'name_en': 'Infectious Disease', 'icon': '🦠', 'categories': ['A', 'B']},
+    'EMERGENCY': {'name_ar': 'طوارئ', 'name_en': 'Emergency', 'icon': '🚑', 'categories': ['T']},
+    'CRITICAL_CARE': {'name_ar': 'عناية مركزة', 'name_en': 'Critical Care', 'icon': '🛏️', 'categories': []},
+    'PAIN_SPECIALIST': {'name_ar': 'علاج الألم', 'name_en': 'Pain Management', 'icon': '💊', 'categories': []},
 }
 
 def classify_icd_to_specialties(icd_code):
@@ -157,9 +244,16 @@ def classify_icd_to_specialties(icd_code):
 # Main Database Builder
 # ═══════════════════════════════════════════════════════════
 
-def build_database():
+def build_database(paths=None):
+    if paths:
+        global INDICATION_FILE, SFDA_MAPPED_FILE, HDL_FILE, ACTIVE_INGREDIENT_FILE
+        INDICATION_FILE = paths.get('ddf', INDICATION_FILE)
+        SFDA_MAPPED_FILE = paths.get('ddf', SFDA_MAPPED_FILE)
+        HDL_FILE = paths.get('hdl', HDL_FILE)
+        ACTIVE_INGREDIENT_FILE = paths.get('active_ingredient', ACTIVE_INGREDIENT_FILE)
+
     print("=" * 60)
-    print("CHI Drug-Diagnosis Mapper - Building Database V3")
+    print("CHI Drug-Diagnosis Mapper - Building Database V3 (Final)")
     print("=" * 60)
 
     if os.path.exists(DB_FILE):
@@ -201,6 +295,7 @@ def build_database():
             patient_type TEXT,
             sfda_registration_status TEXT,
             substitutable INTEGER DEFAULT 1,
+            therapy_tier INTEGER DEFAULT 1,
             row_hash TEXT UNIQUE NOT NULL,
             FOREIGN KEY (drug_id) REFERENCES drugs(id),
             FOREIGN KEY (indication_id) REFERENCES indications(id)
@@ -220,6 +315,16 @@ def build_database():
             drug_indication_id INTEGER NOT NULL,
             edit_code TEXT NOT NULL,
             note_text TEXT,
+            source TEXT,
+            parsed_json TEXT,
+            FOREIGN KEY (drug_indication_id) REFERENCES drug_indications(id)
+        );
+
+        CREATE TABLE cu_links (
+            drug_indication_id INTEGER NOT NULL,
+            companion_type TEXT NOT NULL,
+            companion_ref TEXT NOT NULL,
+            match_text TEXT,
             FOREIGN KEY (drug_indication_id) REFERENCES drug_indications(id)
         );
 
@@ -239,6 +344,7 @@ def build_database():
             package_types TEXT,
             package_size TEXT,
             public_price REAL,
+            pricing_date TEXT,
             legal_status TEXT,
             product_control TEXT,
             distribute_area TEXT,
@@ -255,7 +361,8 @@ def build_database():
             authorization_status TEXT,
             source TEXT,
             marketing_status TEXT,
-            is_dispensable INTEGER
+            is_dispensable INTEGER DEFAULT 0,
+            opd_dispensable INTEGER DEFAULT 0
         );
 
         CREATE TABLE specialties (
@@ -282,15 +389,25 @@ def build_database():
             indication TEXT,
             icd_raw TEXT,
             description_code TEXT,
-            scientific_name TEXT
+            scientific_name TEXT,
+            formulation TEXT,
+            strength TEXT,
+            strength_unit TEXT
         );
         
         CREATE TABLE covered_ingredients (
             description_code TEXT PRIMARY KEY,
             scientific_root TEXT,
             atc TEXT,
+            sfda_registered INTEGER DEFAULT 0,
             in_ddf INTEGER DEFAULT 0
         );
+        
+        CREATE INDEX idx_di_icd_icd ON di_icd_groups(icd_code);
+        CREATE INDEX idx_di_icd_di ON di_icd_groups(drug_indication_id);
+        CREATE INDEX idx_di_edits_di ON di_edits(drug_indication_id);
+        CREATE INDEX idx_products_dc ON products(description_code);
+        CREATE INDEX idx_di_drug ON drug_indications(drug_id);
     ''')
 
     # 1. Read CHI Drug Formulary DDF
@@ -303,7 +420,6 @@ def build_database():
     # Rename columns to standard
     ddf_df.columns = ddf_df.columns.str.strip()
     
-    # We use a loop to rename because column names can be messy
     for col in ddf_df.columns:
         col_up = col.upper()
         if 'DESCRIPTION CODE \n' in col_up or ('DESCRIPTION CODE' in col_up and 'ROOT' not in col_up):
@@ -349,7 +465,6 @@ def build_database():
         elif 'SFDA REGISTRATION STATUS' == col_up:
             ddf_df.rename(columns={col: 'sfda_registration_status'}, inplace=True)
     
-    # Ensure all required columns exist, if not create empty
     for req_col in ['description_code', 'indication']:
         if req_col not in ddf_df.columns:
             ddf_df[req_col] = ''
@@ -388,6 +503,10 @@ def build_database():
         cur.execute('INSERT INTO indications (indication_name) VALUES (?)', (ind,))
         ind_map[ind] = cur.lastrowid
         
+    # Preload scientific names for CU matching
+    cur.execute("SELECT DISTINCT scientific_name FROM drugs WHERE length(scientific_name) > 4")
+    sci_names = [r[0].upper() for r in cur.fetchall() if r[0]]
+        
     # Process Drug Indications
     for _, row in valid_ddf.iterrows():
         dc = str(row['description_code']).strip()
@@ -397,23 +516,28 @@ def build_database():
         if not drug_id or not ind_id:
             continue
             
-        # Create row_hash to uniquely identify this exact row
-        row_str = f"{dc}_{ind}_{row.get('notes','')}_{row.get('prescribing_edits','')}_{row.get('patient_type','')}_{row.get('mdd_adults','')}"
+        pt = str(row.get('patient_type', '')).strip()
+        
+        row_str = f"{dc}_{ind}_{row.get('notes','')}_{row.get('prescribing_edits','')}_{pt}_{row.get('mdd_adults','')}_{row.get('icd10_codes','')}"
         row_hash = hashlib.md5(row_str.encode('utf-8')).hexdigest()
         
         subs = 0 if str(row.get('substitutable', '')).strip().upper() == 'NO' else 1
+        
+        # Parse edits first to determine therapy tier
+        edits = parse_edits(row.get('prescribing_edits', ''), row.get('notes', ''))
+        tier = get_therapy_tier(edits)
         
         try:
             cur.execute('''
                 INSERT INTO drug_indications
                 (drug_id, indication_id, prescribing_edits, mdd_adults, mdd_pediatrics,
-                 notes, appendix, patient_type, sfda_registration_status, substitutable, row_hash)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 notes, appendix, patient_type, sfda_registration_status, substitutable, therapy_tier, row_hash)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 drug_id, ind_id, row.get('prescribing_edits', ''),
                 row.get('mdd_adults', ''), row.get('mdd_pediatrics', ''),
-                row.get('notes', ''), row.get('appendix', ''), row.get('patient_type', ''),
-                row.get('sfda_registration_status', ''), subs, row_hash
+                row.get('notes', ''), row.get('appendix', ''), pt,
+                row.get('sfda_registration_status', ''), subs, tier, row_hash
             ))
             di_id = cur.lastrowid
             
@@ -427,15 +551,29 @@ def build_database():
                     ''', (di_id, group_no, icd_code, is_parent))
                     
             # Process Edits from Notes
-            edits = parse_edits_from_notes(row.get('notes', ''))
             for ed in edits:
+                parsed_json = parse_rule_json(ed['code'], ed['text'], row.get('mdd_adults', ''))
                 cur.execute('''
-                    INSERT INTO di_edits (drug_indication_id, edit_code, note_text)
-                    VALUES (?, ?, ?)
-                ''', (di_id, ed['code'], ed['text']))
+                    INSERT INTO di_edits (drug_indication_id, edit_code, note_text, source, parsed_json)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (di_id, ed['code'], ed['text'], ed['source'], parsed_json))
                 
+                # Setup CU links
+                if ed['code'] == 'CU' and ed['text']:
+                    text_u = ed['text'].upper()
+                    # Try matching scientific names
+                    matched_names = [n for n in sci_names if n in text_u]
+                    for mn in matched_names:
+                        cur.execute("INSERT INTO cu_links (drug_indication_id, companion_type, companion_ref, match_text) VALUES (?, ?, ?, ?)", (di_id, 'DRUG', mn, ed['text']))
+                    
+                    # Try matching classes
+                    classes_map = {'NSAID': 'NSAID', 'PPI': 'PPI', 'PROTON PUMP': 'PPI', 'METFORMIN': 'METFORMIN', 'STATIN': 'STATIN', 'METHOTREXATE': 'METHOTREXATE', 'METRONIDAZOLE': 'METRONIDAZOLE'}
+                    for c_kw, c_ref in classes_map.items():
+                        if c_kw in text_u:
+                            cur.execute("INSERT INTO cu_links (drug_indication_id, companion_type, companion_ref, match_text) VALUES (?, ?, ?, ?)", (di_id, 'CLASS', c_ref, ed['text']))
+
         except sqlite3.IntegrityError:
-            pass # duplicate row exactly
+            pass
             
     # Load Mapped SFDA (same file, sheet 'Mapped to SFDA')
     mapped_sheet = [s for s in excel_file.sheet_names if 'Mapped' in s][0]
@@ -467,7 +605,7 @@ def build_database():
         'Marketing Country': 'marketing_country',
         'Manufacture Name': 'manufacture_name',
         'Manufacture Country': 'manufacture_country',
-        'Description Code': 'description_code',
+        'DescriptionCode': 'description_code',
         'Authorization Status': 'authorization_status',
         'GTIN': 'gtin'
     }
@@ -476,90 +614,173 @@ def build_database():
     for col in sfda_df.columns:
         sfda_df[col] = sfda_df[col].replace('nan', '').fillna('')
         
+    mapped_products = []
     for _, row in sfda_df.iterrows():
+        reg = row.get('register_number', '')
+        if not reg: continue
         price = None
         try:
             price = float(row.get('public_price', '')) if row.get('public_price', '') else None
         except ValueError:
             pass
             
-        cur.execute('''
-            INSERT INTO products
-            (description_code, register_number, trade_name, scientific_name,
-             drug_type, sub_type, pharmaceutical_form, administration_route,
-             strength, strength_unit, atc_code, package_types, package_size,
-             public_price, legal_status, product_control, distribute_area,
-             marketing_company, marketing_country, manufacture_name,
-             manufacture_country, storage_conditions, storage_condition_arabic,
-             size_value, size_unit, shelf_life, gtin, authorization_status, source, is_dispensable)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            row.get('description_code', ''), row.get('register_number', ''), row.get('trade_name', ''),
-            row.get('scientific_name', ''), row.get('drug_type', ''), row.get('sub_type', ''),
-            row.get('pharmaceutical_form', ''), row.get('administration_route', ''),
-            row.get('strength', ''), row.get('strength_unit', ''), row.get('atc_code1', ''),
-            row.get('package_types', ''), row.get('package_size', ''), price,
-            row.get('legal_status', ''), row.get('product_control', ''), row.get('distribute_area', ''),
-            row.get('marketing_company', ''), row.get('marketing_country', ''),
-            row.get('manufacture_name', ''), row.get('manufacture_country', ''),
-            row.get('storage_conditions', ''), row.get('storage_condition_arabic', ''),
-            row.get('size_value', ''), row.get('size_unit', ''), row.get('shelf_life', ''),
-            row.get('gtin', ''), row.get('authorization_status', ''), 'MAPPED',
-            1 if str(row.get('authorization_status', '')).upper() == 'VALID' else 0
-        ))
+        da = str(row.get('distribute_area', '')).strip()
+        auth = str(row.get('authorization_status', '')).upper().strip()
+        
+        mapped_products.append({
+            'description_code': row.get('description_code', ''),
+            'register_number': reg,
+            'trade_name': row.get('trade_name', ''),
+            'scientific_name': row.get('scientific_name', ''),
+            'drug_type': row.get('drug_type', ''),
+            'sub_type': row.get('sub_type', ''),
+            'pharmaceutical_form': row.get('pharmaceutical_form', ''),
+            'administration_route': row.get('administration_route', ''),
+            'strength': row.get('strength', ''),
+            'strength_unit': row.get('strength_unit', ''),
+            'atc_code': row.get('atc_code1', ''),
+            'package_types': row.get('package_types', ''),
+            'package_size': row.get('package_size', ''),
+            'public_price': price,
+            'pricing_date': None,
+            'legal_status': row.get('legal_status', ''),
+            'product_control': row.get('product_control', ''),
+            'distribute_area': da,
+            'marketing_company': row.get('marketing_company', ''),
+            'marketing_country': row.get('marketing_country', ''),
+            'manufacture_name': row.get('manufacture_name', ''),
+            'manufacture_country': row.get('manufacture_country', ''),
+            'storage_conditions': row.get('storage_conditions', ''),
+            'storage_condition_arabic': row.get('storage_condition_arabic', ''),
+            'size_value': row.get('size_value', ''),
+            'size_unit': row.get('size_unit', ''),
+            'shelf_life': row.get('shelf_life', ''),
+            'gtin': row.get('gtin', ''),
+            'authorization_status': auth,
+            'source': 'MAPPED',
+            'marketing_status': 'Marketed',
+        })
 
-    # Also load HDL_FILE missing products
+    # Load HDL_FILE
     print(f"Reading HDL file: {HDL_FILE}")
     hdl_excel = pd.ExcelFile(HDL_FILE)
     hdl_df = pd.read_excel(hdl_excel, sheet_name=hdl_excel.sheet_names[0], dtype=str)
     
-    # We map similar columns from HDL
-    hdl_rename_map = sfda_rename_map # Mostly the same columns
     hdl_df.columns = hdl_df.columns.str.strip()
-    hdl_df = hdl_df.rename(columns=hdl_rename_map)
+    # Find matching columns case insensitively
+    hdl_cols_map = {}
+    for c in hdl_df.columns:
+        cu = c.upper()
+        if 'REGISTERNUMBER' in cu: hdl_cols_map[c] = 'register_number'
+        elif 'AUTHORIZATION STATUS' in cu: hdl_cols_map[c] = 'authorization_status'
+        elif 'MARKETING STATUS' in cu: hdl_cols_map[c] = 'marketing_status'
+        elif 'PRICING DATE' in cu: hdl_cols_map[c] = 'pricing_date'
+        elif c in sfda_rename_map: hdl_cols_map[c] = sfda_rename_map[c]
+        
+    hdl_df = hdl_df.rename(columns=hdl_cols_map)
     for col in hdl_df.columns:
         hdl_df[col] = hdl_df[col].replace('nan', '').fillna('')
         
-    cur.execute('SELECT register_number FROM products')
-    existing_registers = set(r[0] for r in cur.fetchall() if r[0])
-    
-    hdl_added = 0
+    hdl_dict = {}
     for _, row in hdl_df.iterrows():
         reg = row.get('register_number', '')
-        if reg and reg not in existing_registers and row.get('description_code', '') in drug_map:
+        if reg: hdl_dict[reg] = row
+
+    # Merge logic
+    final_products = []
+    for p in mapped_products:
+        reg = p['register_number']
+        h_row = hdl_dict.get(reg)
+        if h_row is not None:
+            # Apply most restrictive auth status
+            h_auth = str(h_row.get('authorization_status', '')).upper().strip()
+            if h_auth != 'VALID' and h_auth != p['authorization_status']:
+                p['authorization_status'] = h_auth
+            p['marketing_status'] = str(h_row.get('marketing_status', '')).strip()
+            p['pricing_date'] = str(h_row.get('pricing_date', '')).strip()
+        
+        is_dispensable = 1 if p['authorization_status'] == 'VALID' and p['marketing_status'] != 'Not Marketed' else 0
+        opd_dispensable = 1 if is_dispensable == 1 and p['distribute_area'] != 'Hospital' else 0
+        p['is_dispensable'] = is_dispensable
+        p['opd_dispensable'] = opd_dispensable
+        final_products.append(p)
+        
+    # Add HDL only products
+    mapped_regs = set(p['register_number'] for p in mapped_products)
+    hdl_added = 0
+    for reg, row in hdl_dict.items():
+        if reg not in mapped_regs and row.get('description_code', '') in drug_map:
             price = None
             try:
                 price = float(row.get('public_price', '')) if row.get('public_price', '') else None
             except ValueError:
                 pass
-                
-            cur.execute('''
-                INSERT INTO products
-                (description_code, register_number, trade_name, scientific_name,
-                 drug_type, sub_type, pharmaceutical_form, administration_route,
-                 strength, strength_unit, atc_code, package_types, package_size,
-                 public_price, legal_status, product_control, distribute_area,
-                 marketing_company, marketing_country, manufacture_name,
-                 manufacture_country, storage_conditions, storage_condition_arabic,
-                 size_value, size_unit, shelf_life, gtin, authorization_status, source, is_dispensable)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                row.get('description_code', ''), reg, row.get('trade_name', ''),
-                row.get('scientific_name', ''), row.get('drug_type', ''), row.get('sub_type', ''),
-                row.get('pharmaceutical_form', ''), row.get('administration_route', ''),
-                row.get('strength', ''), row.get('strength_unit', ''), row.get('atc_code1', ''),
-                row.get('package_types', ''), row.get('package_size', ''), price,
-                row.get('legal_status', ''), row.get('product_control', ''), row.get('distribute_area', ''),
-                row.get('marketing_company', ''), row.get('marketing_country', ''),
-                row.get('manufacture_name', ''), row.get('manufacture_country', ''),
-                row.get('storage_conditions', ''), row.get('storage_condition_arabic', ''),
-                row.get('size_value', ''), row.get('size_unit', ''), row.get('shelf_life', ''),
-                row.get('gtin', ''), row.get('authorization_status', ''), 'HDL',
-                1 if 'VALID' in str(row.get('authorization_status', '')).upper() else 0
-            ))
-            existing_registers.add(reg)
+            
+            da = str(row.get('distribute_area', '')).strip()
+            auth = str(row.get('authorization_status', '')).upper().strip()
+            mkt = str(row.get('marketing_status', '')).strip()
+            
+            is_dispensable = 1 if auth == 'VALID' and mkt != 'Not Marketed' else 0
+            opd_dispensable = 1 if is_dispensable == 1 and da != 'Hospital' else 0
+            
+            final_products.append({
+                'description_code': row.get('description_code', ''),
+                'register_number': reg,
+                'trade_name': row.get('trade_name', ''),
+                'scientific_name': row.get('scientific_name', ''),
+                'drug_type': row.get('drug_type', ''),
+                'sub_type': row.get('sub_type', ''),
+                'pharmaceutical_form': row.get('pharmaceutical_form', ''),
+                'administration_route': row.get('administration_route', ''),
+                'strength': row.get('strength', ''),
+                'strength_unit': row.get('strength_unit', ''),
+                'atc_code': row.get('atc_code1', ''),
+                'package_types': row.get('package_types', ''),
+                'package_size': row.get('package_size', ''),
+                'public_price': price,
+                'pricing_date': row.get('pricing_date', ''),
+                'legal_status': row.get('legal_status', ''),
+                'product_control': row.get('product_control', ''),
+                'distribute_area': da,
+                'marketing_company': row.get('marketing_company', ''),
+                'marketing_country': row.get('marketing_country', ''),
+                'manufacture_name': row.get('manufacture_name', ''),
+                'manufacture_country': row.get('manufacture_country', ''),
+                'storage_conditions': row.get('storage_conditions', ''),
+                'storage_condition_arabic': row.get('storage_condition_arabic', ''),
+                'size_value': row.get('size_value', ''),
+                'size_unit': row.get('size_unit', ''),
+                'shelf_life': row.get('shelf_life', ''),
+                'gtin': row.get('gtin', ''),
+                'authorization_status': auth,
+                'source': 'HDL',
+                'marketing_status': mkt,
+                'is_dispensable': is_dispensable,
+                'opd_dispensable': opd_dispensable
+            })
             hdl_added += 1
 
+    for p in final_products:
+        cur.execute('''
+            INSERT INTO products
+            (description_code, register_number, trade_name, scientific_name,
+             drug_type, sub_type, pharmaceutical_form, administration_route,
+             strength, strength_unit, atc_code, package_types, package_size,
+             public_price, pricing_date, legal_status, product_control, distribute_area,
+             marketing_company, marketing_country, manufacture_name,
+             manufacture_country, storage_conditions, storage_condition_arabic,
+             size_value, size_unit, shelf_life, gtin, authorization_status, source, marketing_status, is_dispensable, opd_dispensable)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            p['description_code'], p['register_number'], p['trade_name'], p['scientific_name'],
+            p['drug_type'], p['sub_type'], p['pharmaceutical_form'], p['administration_route'],
+            p['strength'], p['strength_unit'], p['atc_code'], p['package_types'], p['package_size'],
+            p['public_price'], p['pricing_date'], p['legal_status'], p['product_control'], p['distribute_area'],
+            p['marketing_company'], p['marketing_country'], p['manufacture_name'],
+            p['manufacture_country'], p['storage_conditions'], p['storage_condition_arabic'],
+            p['size_value'], p['size_unit'], p['shelf_life'], p['gtin'], p['authorization_status'], p['source'], p['marketing_status'], p['is_dispensable'], p['opd_dispensable']
+        ))
+        
     print(f"Added {hdl_added} additional products from HDL.")
     
     # Load Formulary Changes
@@ -567,23 +788,80 @@ def build_database():
     if changes_sheet:
         print("Loading Formulary Changes...")
         ch_df = pd.read_excel(excel_file, sheet_name=changes_sheet[0], dtype=str)
-        ch_df.columns = ch_df.columns.str.strip()
-        ch_cols = {
-            'Change Category': 'change_category',
-            'INDICATION': 'indication',
-            'ICD-10-AM codes': 'icd_raw',
-            'DESCRIPTION CODE': 'description_code',
-            'SCIENTIFIC NAME': 'scientific_name'
-        }
+        
+        # Case insensitive mapping for Changes sheet
+        ch_cols = {}
+        for c in ch_df.columns:
+            cu = c.upper()
+            if 'CHANGE CATEGORY' in cu: ch_cols[c] = 'change_category'
+            elif 'INDICATION' in cu: ch_cols[c] = 'indication'
+            elif 'ICD' in cu: ch_cols[c] = 'icd_raw'
+            elif 'DESCRIPTION CODE' in cu: ch_cols[c] = 'description_code'
+            elif 'SCIENTIFIC NAME' in cu: ch_cols[c] = 'scientific_name'
+            elif 'DATE' in cu and 'UPDATE' not in cu: ch_cols[c] = 'change_date'
+            elif 'FORMULATION' in cu: ch_cols[c] = 'formulation'
+            elif 'STRENGTH UNIT' in cu: ch_cols[c] = 'strength_unit'
+            elif 'STRENGTH' in cu: ch_cols[c] = 'strength'
+            
         ch_df = ch_df.rename(columns=ch_cols)
+        
         for _, row in ch_df.iterrows():
+            cat = str(row.get('change_category', '')).strip()
+            if not cat or 'updated all' in cat.lower(): continue
+            
             cur.execute('''
-                INSERT INTO formulary_changes (edition, change_date, change_category, indication, icd_raw, description_code, scientific_name)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO formulary_changes (edition, change_date, change_category, indication, icd_raw, description_code, scientific_name, formulation, strength, strength_unit)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                'ed59', '2026-08', str(row.get('change_category', '')), str(row.get('indication', '')),
-                str(row.get('icd_raw', '')), str(row.get('description_code', '')), str(row.get('scientific_name', ''))
+                'ed59', str(row.get('change_date', '')), cat, str(row.get('indication', '')),
+                str(row.get('icd_raw', '')), str(row.get('description_code', '')), str(row.get('scientific_name', '')),
+                str(row.get('formulation', '')), str(row.get('strength', '')), str(row.get('strength_unit', ''))
             ))
+
+    # Load Active Ingredients
+    print(f"Reading Active Ingredients file: {ACTIVE_INGREDIENT_FILE}")
+    ai_excel = pd.ExcelFile(ACTIVE_INGREDIENT_FILE)
+    ai_sheet = [s for s in ai_excel.sheet_names if 'Active Ingredient' in s and 'Unique' not in s]
+    if ai_sheet:
+        # Find header row
+        ai_df = pd.read_excel(ai_excel, sheet_name=ai_sheet[0], dtype=str)
+        # Find row where 'DESCRIPTION CODE' is present
+        header_row = 0
+        for i, r in ai_df.iterrows():
+            if any('DESCRIPTION CODE' in str(v).upper() for v in r.values):
+                header_row = i
+                break
+        ai_df = pd.read_excel(ai_excel, sheet_name=ai_sheet[0], dtype=str, header=header_row+1)
+        
+        ai_cols = {}
+        for c in ai_df.columns:
+            cu = str(c).upper()
+            if 'DESCRIPTION CODE' in cu and 'ROOT' not in cu: ai_cols[c] = 'description_code'
+            elif 'SCIENTIFIC DESCRIPTION CODE ROOT' in cu: ai_cols[c] = 'scientific_root'
+            elif 'ATC CODE' in cu: ai_cols[c] = 'atc'
+            elif 'SFDA REGISTRATION STATUS' in cu: ai_cols[c] = 'sfda_registered'
+            
+        ai_df = ai_df.rename(columns=ai_cols)
+        
+        # Determine which are in DDF
+        cur.execute("SELECT DISTINCT description_code FROM drugs")
+        ddf_dcs = set(r[0] for r in cur.fetchall() if r[0])
+        
+        added_ai = 0
+        for _, row in ai_df.iterrows():
+            dc = str(row.get('description_code', '')).strip()
+            if dc and dc != 'nan':
+                reg = 1 if str(row.get('sfda_registered', '')).upper() == 'YES' else 0
+                in_ddf = 1 if dc in ddf_dcs else 0
+                try:
+                    cur.execute('''
+                        INSERT INTO covered_ingredients (description_code, scientific_root, atc, sfda_registered, in_ddf)
+                        VALUES (?, ?, ?, ?, ?)
+                    ''', (dc, str(row.get('scientific_root', '')), str(row.get('atc', '')), reg, in_ddf))
+                    added_ai += 1
+                except sqlite3.IntegrityError:
+                    pass
+        print(f"Added {added_ai} covered ingredients.")
 
     # Build Specialties
     for key, data in SPECIALTY_CONFIG.items():

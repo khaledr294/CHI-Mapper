@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHI Mapper - فحص الوصفات الطبية</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
+    <style>
+        .form-section { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+        .form-title { font-size: var(--font-lg); font-weight: bold; margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px; color: var(--primary-dark); }
+        .form-row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: var(--font-sm); font-weight: 600; color: var(--text-secondary); }
+        .form-control { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: var(--font-base); font-family: inherit; }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15); }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-size: var(--font-lg); font-weight: bold; cursor: pointer; transition: 0.2s; font-family: inherit; width: 100%; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: #e0e0e0; color: var(--text); border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-size: var(--font-sm); cursor: pointer; font-family: inherit; transition: 0.2s; }
+        .btn-secondary:hover { background: #d0d0d0; }
+        .btn-danger { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: var(--radius-sm); font-size: var(--font-sm); cursor: pointer; font-family: inherit; }
+        
+        .autocomplete-wrapper { position: relative; flex: 1; }
+        .autocomplete-dropdown { position: absolute; top: 100%; right: 0; left: 0; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-hover); max-height: 250px; overflow-y: auto; z-index: 1000; display: none; }
+        .autocomplete-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--border-light); font-size: var(--font-sm); }
+        .autocomplete-item:hover { background: var(--primary-light); }
+        
+        .list-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
+        
+        .result-card-val { background: white; border-radius: var(--radius); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow); border-right: 5px solid gray; }
+        .result-card-val.status-GREEN { border-right-color: var(--success); }
+        .result-card-val.status-YELLOW { border-right-color: var(--warning); }
+        .result-card-val.status-RED { border-right-color: var(--danger); }
+        .result-title { font-size: var(--font-lg); font-weight: bold; margin-bottom: 8px; }
+        .msg-item { padding: 8px 12px; margin-bottom: 6px; border-radius: var(--radius-sm); font-size: var(--font-sm); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .msg-GREEN { background: var(--success-bg); color: var(--success); }
+        .msg-YELLOW { background: var(--warning-bg); color: var(--warning); }
+        .msg-RED { background: var(--danger-bg); color: var(--danger); }
+        
+        .nav-links { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+        .nav-link { color: white; text-decoration: none; font-size: var(--font-base); font-weight: 600; padding: 6px 12px; border-radius: var(--radius-sm); transition: 0.2s; background: rgba(255,255,255,0.1); }
+        .nav-link:hover { background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+
+<header id="app-header">
+    <div class="header-content">
+        <h1>✅ فحص الوصفات الطبية (Validator)</h1>
+        <p class="header-sub">التحقق من التغطية التأمينية والضوابط تلقائياً</p>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🔍 العودة للبحث المفتوح</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="form-section">
+        <div class="form-title">👤 بيانات المريض والزيارة</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>العمر (سنوات)</label>
+                <input type="number" id="val-age" class="form-control" placeholder="مثال: 45">
+            </div>
+            <div class="form-group">
+                <label>الجنس</label>
+                <select id="val-gender" class="form-control">
+                    <option value="">غير محدد</option>
+                    <option value="M">ذكر</option>
+                    <option value="F">أنثى</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>نوع الزيارة</label>
+                <select id="val-setting" class="form-control">
+                    <option value="OPD">عيادات خارجية (OPD)</option>
+                    <option value="IP">تنويم (IP)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>تخصص الطبيب المعالج</label>
+                <select id="val-specialty" class="form-control">
+                    <option value="">غير محدد / طبيب عام</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">🏥 التشخيصات (ICD-10-AM)</div>
+        <div class="form-row" style="align-items: flex-end;">
+            <div class="form-group" style="flex: 3;">
+                <label>إضافة كود ICD-10 أو اسم المرض</label>
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="val-icd-input" class="form-control" placeholder="اكتب التشخيص للبحث..." autocomplete="off">
+                    <div id="icd-dropdown" class="autocomplete-dropdown"></div>
+                </div>
+            </div>
+        </div>
+        <div id="icd-list" class="list-container"></div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">💊 الأدوية الموصوفة</div>
+        <div class="form-row" style="align-items: flex-end;">
+            <div class="form-group" style="flex: 3;">
+                <label>البحث عن دواء (الاسم العلمي أو التجاري)</label>
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="val-drug-input" class="form-control" placeholder="اكتب اسم الدواء..." autocomplete="off">
+                    <div id="drug-dropdown" class="autocomplete-dropdown"></div>
+                </div>
+            </div>
+        </div>
+        <div id="drug-list" class="list-container"></div>
+    </div>
+
+    <div style="display: flex; gap: 16px;">
+        <button class="btn-primary" onclick="validatePrescription()">🔍 فحص الوصفة الطبية</button>
+        <button class="btn-primary" style="background: var(--success);" onclick="optimizePrescription()">💰 تحسين الوصفة و رفع العائد</button>
+    </div>
+
+    <div id="loading" class="loading" style="display:none; margin-top:20px;">
+        <div class="spinner"></div>
+        <span>جاري الفحص والتحليل...</span>
+    </div>
+
+    <div id="validation-results" style="margin-top: 30px; display:none;">
+        <h2 style="margin-bottom: 16px; color: var(--primary-dark);">📄 نتيجة التغطية والفحص</h2>
+        <div id="results-container"></div>
+    </div>
+
+</main>
+
+<script src="/static/js/validator.js"></script>
+</body>
+</html>

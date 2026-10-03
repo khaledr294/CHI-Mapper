@@ -89,6 +89,10 @@ def get_db():
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/validator", response_class=HTMLResponse)
+async def validator_page(request: Request):
+    return templates.TemplateResponse("validator.html", {"request": request})
+
 
 # ─── Specialties API ─────────────────────────────────────
 
@@ -223,7 +227,11 @@ def search_indications(conn, query, specialty=None):
     if specialty:
         # Filter by specialty
         name_rows = conn.execute('''
-            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            SELECT DISTINCT i.id, i.indication_name,
+                (SELECT GROUP_CONCAT(DISTINCT ic.icd_code) 
+                 FROM drug_indications di 
+                 JOIN di_icd_groups ic ON di.id = ic.drug_indication_id 
+                 WHERE di.indication_id = i.id) as icd10_codes_raw
             FROM indications i
             JOIN indication_specialties isp ON i.id = isp.indication_id
             WHERE i.indication_name LIKE ? AND isp.specialty_key = ?
@@ -232,9 +240,14 @@ def search_indications(conn, query, specialty=None):
         ''', (q_like, specialty)).fetchall()
 
         icd_rows = conn.execute('''
-            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            SELECT DISTINCT i.id, i.indication_name,
+                (SELECT GROUP_CONCAT(DISTINCT ic2.icd_code) 
+                 FROM drug_indications di2 
+                 JOIN di_icd_groups ic2 ON di2.id = ic2.drug_indication_id 
+                 WHERE di2.indication_id = i.id) as icd10_codes_raw
             FROM indications i
-            JOIN indication_icd_codes ic ON i.id = ic.indication_id
+            JOIN drug_indications di ON i.id = di.indication_id
+            JOIN di_icd_groups ic ON di.id = ic.drug_indication_id
             JOIN indication_specialties isp ON i.id = isp.indication_id
             WHERE ic.icd_code LIKE ? AND isp.specialty_key = ?
             ORDER BY i.indication_name
@@ -242,7 +255,11 @@ def search_indications(conn, query, specialty=None):
         ''', (q_like, specialty)).fetchall()
     else:
         name_rows = conn.execute('''
-            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            SELECT DISTINCT i.id, i.indication_name,
+                (SELECT GROUP_CONCAT(DISTINCT ic.icd_code) 
+                 FROM drug_indications di 
+                 JOIN di_icd_groups ic ON di.id = ic.drug_indication_id 
+                 WHERE di.indication_id = i.id) as icd10_codes_raw
             FROM indications i
             WHERE i.indication_name LIKE ?
             ORDER BY i.indication_name
@@ -250,9 +267,14 @@ def search_indications(conn, query, specialty=None):
         ''', (q_like,)).fetchall()
 
         icd_rows = conn.execute('''
-            SELECT DISTINCT i.id, i.indication_name, i.icd10_codes_raw
+            SELECT DISTINCT i.id, i.indication_name,
+                (SELECT GROUP_CONCAT(DISTINCT ic2.icd_code) 
+                 FROM drug_indications di2 
+                 JOIN di_icd_groups ic2 ON di2.id = ic2.drug_indication_id 
+                 WHERE di2.indication_id = i.id) as icd10_codes_raw
             FROM indications i
-            JOIN indication_icd_codes ic ON i.id = ic.indication_id
+            JOIN drug_indications di ON i.id = di.indication_id
+            JOIN di_icd_groups ic ON di.id = ic.drug_indication_id
             WHERE ic.icd_code LIKE ?
             ORDER BY i.indication_name
             LIMIT 80
@@ -373,10 +395,13 @@ async def indication_details(indication_id: int):
         result = dict(ind)
 
         # ICD codes
-        codes = conn.execute(
-            'SELECT icd_code FROM indication_icd_codes WHERE indication_id = ? ORDER BY icd_code',
-            (indication_id,)
-        ).fetchall()
+        codes = conn.execute('''
+            SELECT DISTINCT ic.icd_code 
+            FROM drug_indications di 
+            JOIN di_icd_groups ic ON di.id = ic.drug_indication_id 
+            WHERE di.indication_id = ? 
+            ORDER BY ic.icd_code
+        ''', (indication_id,)).fetchall()
         result['icd_codes'] = [c['icd_code'] for c in codes]
 
         # Specialties
@@ -509,6 +534,19 @@ async def api_validate_prescription(req: ValidationRequest):
         return result
     except Exception as e:
         logging.error(f"Validation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/optimize-prescription")
+async def api_optimize_prescription(req: ValidationRequest):
+    """
+    Find value optimization opportunities for a prescription.
+    """
+    try:
+        from optimizer import optimize_prescription
+        result = optimize_prescription(req, DB_PATH)
+        return result
+    except Exception as e:
+        logging.error(f"Optimization error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

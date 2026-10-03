@@ -522,23 +522,8 @@ def load_changelog():
 # ═══════════════════════════════════════════════════════════
 
 def update_data_processor_paths(xlsx_path):
-    """Update the file path constants in data_processor.py."""
-    dp_file = os.path.join(BASE_DIR, 'data_processor.py')
-    with open(dp_file, 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    xlsx_name = os.path.basename(xlsx_path)
-
-    content = re.sub(
-        r"INDICATION_FILE\s*=\s*os\.path\.join\(BASE_DIR,.*?\)",
-        f"INDICATION_FILE = os.path.join(BASE_DIR, '{xlsx_name}')",
-        content, flags=re.DOTALL
-    )
-
-    with open(dp_file, 'w', encoding='utf-8') as f:
-        f.write(content)
-
-    logger.info(f"Updated data_processor.py paths → {xlsx_name}")
+    """Deprecated. We now pass paths directly to build_database."""
+    pass
 
 
 # ═══════════════════════════════════════════════════════════
@@ -678,16 +663,15 @@ def run_update(force_edition=None):
 
     try:
         # Step 3: Extract CSVs as backup (Optional)
+        ind_csv, sfda_csv = None, None
         try:
-            extract_csvs_from_xlsx(xlsx_path, edition_num, date_str)
+            ind_csv, sfda_csv = extract_csvs_from_xlsx(xlsx_path, edition_num, date_str)
         except Exception as e:
             logger.warning(f"CSV extraction failed (continuing with xlsx): {e}")
 
-        # Step 4: Update data_processor.py paths and rebuild database
-        update_data_processor_paths(xlsx_path)
-
+        # Step 4: Rebuild database with new file
         from data_processor import build_database
-        build_database()
+        build_database(paths={'ddf': xlsx_path})
 
         # Step 5: Verify database
         stats = get_db_stats()
