@@ -14,7 +14,24 @@ from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
 import logging
-from typing import Optional
+from typing import Optional, List
+from pydantic import BaseModel
+
+class Patient(BaseModel):
+    age: Optional[int] = None
+    gender: Optional[str] = None
+
+class PrescriptionItem(BaseModel):
+    description_code: str
+    qty: Optional[float] = None
+    days: Optional[int] = None
+
+class ValidationRequest(BaseModel):
+    patient: Patient
+    setting: str = 'OPD'
+    prescriber_specialty: Optional[str] = None
+    icd_codes: List[str]
+    items: List[PrescriptionItem]
 
 app = FastAPI(title="CHI Drug-Diagnosis Mapper")
 
@@ -477,6 +494,22 @@ async def get_changelog():
         "last_check": state.get('last_check'),
         "last_update": state.get('last_update'),
     }
+
+
+# ─── Validation API ───────────────────────────────────────
+
+@app.post("/api/validate-prescription")
+async def api_validate_prescription(req: ValidationRequest):
+    """
+    Validate a prescription against CHI rules.
+    """
+    try:
+        from validator import validate_prescription
+        result = validate_prescription(req, DB_PATH)
+        return result
+    except Exception as e:
+        logging.error(f"Validation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":

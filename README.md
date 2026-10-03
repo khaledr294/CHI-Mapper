@@ -108,4 +108,4 @@ uvicorn app:app --reload --port 8000
 ## 📄 License
 
 For medical use in Saudi healthcare system.  
-Based on CHI formulary Ed54 (December 2025).
+Based on CHI formulary Ed59 (August 2026).

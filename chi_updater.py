@@ -521,30 +521,24 @@ def load_changelog():
 # Data Processor Integration
 # ═══════════════════════════════════════════════════════════
 
-def update_data_processor_paths(indication_csv, sfda_csv):
+def update_data_processor_paths(xlsx_path):
     """Update the file path constants in data_processor.py."""
     dp_file = os.path.join(BASE_DIR, 'data_processor.py')
     with open(dp_file, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    ind_name = os.path.basename(indication_csv)
-    sfda_name = os.path.basename(sfda_csv)
+    xlsx_name = os.path.basename(xlsx_path)
 
     content = re.sub(
-        r"INDICATION_FILE\s*=\s*os\.path\.join\(BASE_DIR,\s*'[^']+'\)",
-        f"INDICATION_FILE = os.path.join(BASE_DIR, '{ind_name}')",
-        content
-    )
-    content = re.sub(
-        r"SFDA_FILE\s*=\s*os\.path\.join\(BASE_DIR,\s*'[^']+'\)",
-        f"SFDA_FILE = os.path.join(BASE_DIR, '{sfda_name}')",
-        content
+        r"INDICATION_FILE\s*=\s*os\.path\.join\(BASE_DIR,.*?\)",
+        f"INDICATION_FILE = os.path.join(BASE_DIR, '{xlsx_name}')",
+        content, flags=re.DOTALL
     )
 
     with open(dp_file, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    logger.info(f"Updated data_processor.py paths → {ind_name}, {sfda_name}")
+    logger.info(f"Updated data_processor.py paths → {xlsx_name}")
 
 
 # ═══════════════════════════════════════════════════════════
@@ -683,14 +677,17 @@ def run_update(force_edition=None):
         return {'status': 'error', 'details': f"Failed to download ed{edition_num}"}
 
     try:
-        # Step 3: Extract CSVs
-        ind_csv, sfda_csv = extract_csvs_from_xlsx(xlsx_path, edition_num, date_str)
+        # Step 3: Extract CSVs as backup (Optional)
+        try:
+            extract_csvs_from_xlsx(xlsx_path, edition_num, date_str)
+        except Exception as e:
+            logger.warning(f"CSV extraction failed (continuing with xlsx): {e}")
 
         # Step 4: Update data_processor.py paths and rebuild database
-        update_data_processor_paths(ind_csv, sfda_csv)
+        update_data_processor_paths(xlsx_path)
 
         from data_processor import build_database
-        build_database(indication_file=ind_csv, sfda_file=sfda_csv)
+        build_database()
 
         # Step 5: Verify database
         stats = get_db_stats()
