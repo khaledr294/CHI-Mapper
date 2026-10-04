@@ -1,0 +1,1795 @@
+
+================ MOMETASONE ================
+
+Drug: 14000001781-625-200000016474
+  Indication: ALLERGIC RHINITIS
+    Group 0 (AND): ['J30']
+  Indication: ALLERGIC RHINITIS-ALLERGIC RHINO-CONJUNCTIVITIS
+    Group 0 (AND): ['H10.1']
+    Group 1 (AND): ['J30']
+
+Drug: 7000000858-0.05-100000073809
+  Indication: ALLERGIC RHINITIS
+    Group 0 (AND): ['J30']
+  Indication: SINUSITIS
+    Group 0 (AND): ['J01']
+    Group 1 (AND): ['J32']
+
+Drug: 7000000858-0.05-200000016474
+  Indication: ALLERGIC RHINITIS
+    Group 0 (AND): ['J30']
+  Indication: SINUSITIS
+    Group 0 (AND): ['J01']
+    Group 1 (AND): ['J32']
+
+Drug: 7000000858-0.05-200000016498
+  Indication: ALLERGIC RHINITIS
+    Group 0 (AND): ['J30']
+
+Drug: 7000000858-0.1-100000073712
+  Indication: ANAL FISSURE
+    Group 0 (AND): ['K60.2']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: HUMAN IMMUNODEFICIENCY VIRUS
+    Group 0 (AND): ['B20']
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+  Indication: SEBORRHEIC DERMATITIS
+    Group 0 (AND): ['L21']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 7000000858-0.1-100000073713
+  Indication: ANAL FISSURE
+    Group 0 (AND): ['K60.2']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: HUMAN IMMUNODEFICIENCY VIRUS
+    Group 0 (AND): ['B20']
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+  Indication: SEBORRHEIC DERMATITIS
+    Group 0 (AND): ['L21']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 7000000858-0.1-200000016471
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: HUMAN IMMUNODEFICIENCY VIRUS
+    Group 0 (AND): ['B20']
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+  Indication: SEBORRHEIC DERMATITIS
+    Group 0 (AND): ['L21']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 14000001702-2.1-100000073712
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: FUNGAL INFECTIONS OF THE GENITAL TRACT - CANDIDIASIS OF VULVA AND VAGINA & CANDIDIASIS OF OTHER UROGENITAL SITES
+    Group 0 (AND): ['B37.3']
+    Group 1 (AND): ['B37.4']
+
+Drug: 14000001986-5.1-100000073713
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+
+================ PREDNISOLONE ================
+
+Drug: 7000000834-1000-100000073868
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)
+    Group 0 (AND): ['C91.0']
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC LYMPHOCYTIC LEUKEMIA (CLL)
+    Group 0 (AND): ['C91.1']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: T-CELL LYMPHOMA
+    Group 0 (AND): ['C84']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-125-100000073863
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)
+    Group 0 (AND): ['C91.0']
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-500-100000073868
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)
+    Group 0 (AND): ['C91.0']
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC LYMPHOCYTIC LEUKEMIA (CLL)
+    Group 0 (AND): ['C91.1']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: T-CELL LYMPHOMA
+    Group 0 (AND): ['C84']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000001049-0.12-200000016460
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91.0']
+  Indication: ADULT ACUTE MYELOID LEUKAEMIA (AML)
+    Group 0 (AND): ['C92.0']
+  Indication: ALLERGIC RHINITIS-ALLERGIC RHINO-CONJUNCTIVITIS
+    Group 0 (AND): ['H10.1']
+    Group 1 (AND): ['J30']
+  Indication: BURKITT`S LYMPHOMA
+    Group 0 (AND): ['C83.7']
+  Indication: CYSTOID MACULAR EDEMA
+    Group 0 (AND): ['H26.4']
+    Group 1 (AND): ['H26.8']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: HERPESVIRAL KERATITIS, KERATITIS, OTHER CYTOMEGALOVIRAL DISEASES, ADENOVIRAL KERATOCONJUNCTIVITIS
+    Group 0 (AND): ['B00.5']
+    Group 1 (AND): ['B25.8']
+    Group 2 (AND): ['B30.0']
+    Group 3 (AND): ['H16']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: MANTLE CELL LYMPHOMA
+    Group 0 (AND): ['C83.1']
+  Indication: PEDIATRIC ACUTE LYMPHOBLASTIC LEUKAEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91']
+  Indication: PEDIATRIC B-CELL LYMPHOMA
+    Group 0 (AND): ['C83.0']
+    Group 1 (AND): ['C83.3']
+    Group 2 (AND): ['C85.1']
+    Group 3 (AND): ['C85.2']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: T-CELL LYMPHOMA-RENAL TOXICITY
+    Group 0 (AND): ['C84']
+
+Drug: 7000001049-1-100000073760
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91.0']
+  Indication: ADULT ACUTE MYELOID LEUKAEMIA (AML)
+    Group 0 (AND): ['C92.0']
+  Indication: ALLERGIC CONJUCTIVITIS (AC)
+    Group 0 (AND): ['H10.1']
+  Indication: BURKITT`S LYMPHOMA
+    Group 0 (AND): ['C83.7']
+  Indication: CYSTOID MACULAR EDEMA
+    Group 0 (AND): ['H26.4']
+    Group 1 (AND): ['H26.8']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: HERPESVIRAL KERATITIS, KERATITIS, OTHER CYTOMEGALOVIRAL DISEASES, ADENOVIRAL KERATOCONJUNCTIVITIS
+    Group 0 (AND): ['B00.5']
+    Group 1 (AND): ['B25.8']
+    Group 2 (AND): ['B30.0']
+    Group 3 (AND): ['H16']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: MANTLE CELL LYMPHOMA
+    Group 0 (AND): ['C83.1']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: PEDIATRIC ACUTE LYMPHOBLASTIC LEUKAEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91']
+  Indication: PEDIATRIC B-CELL LYMPHOMA
+    Group 0 (AND): ['C83.0']
+    Group 1 (AND): ['C83.3']
+    Group 2 (AND): ['C85.1']
+    Group 3 (AND): ['C85.2']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: T-CELL LYMPHOMA-RENAL TOXICITY
+    Group 0 (AND): ['C84']
+
+Drug: 7000001049-1-200000016460
+  Indication: ADULT ACUTE LYMPHOCYTIC LEUKEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91.0']
+  Indication: ADULT ACUTE MYELOID LEUKAEMIA (AML)
+    Group 0 (AND): ['C92.0']
+  Indication: ALLERGIC RHINITIS-ALLERGIC RHINO-CONJUNCTIVITIS
+    Group 0 (AND): ['H10.1']
+    Group 1 (AND): ['J30']
+  Indication: BURKITT`S LYMPHOMA
+    Group 0 (AND): ['C83.7']
+  Indication: CYSTOID MACULAR EDEMA
+    Group 0 (AND): ['H26.4']
+    Group 1 (AND): ['H26.8']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: HERPESVIRAL KERATITIS, KERATITIS, OTHER CYTOMEGALOVIRAL DISEASES, ADENOVIRAL KERATOCONJUNCTIVITIS
+    Group 0 (AND): ['B00.5']
+    Group 1 (AND): ['B25.8']
+    Group 2 (AND): ['B30.0']
+    Group 3 (AND): ['H16']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: MANTLE CELL LYMPHOMA
+    Group 0 (AND): ['C83.1']
+  Indication: PEDIATRIC ACUTE LYMPHOBLASTIC LEUKAEMIA (ALL)-ADVERSE REACTIONS MANAGEMENT
+    Group 0 (AND): ['C91']
+  Indication: PEDIATRIC B-CELL LYMPHOMA
+    Group 0 (AND): ['C83.0']
+    Group 1 (AND): ['C83.3']
+    Group 2 (AND): ['C85.1']
+    Group 3 (AND): ['C85.2']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: T-CELL LYMPHOMA-RENAL TOXICITY
+    Group 0 (AND): ['C84']
+
+Drug: 7000000834-40-100000073863
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-40-100000073864
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: LOW BACK PAIN
+    Group 0 (AND): ['M54.5']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-40-100000073866
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-40-100000073873
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-500-100000073873
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC LYMPHOCYTIC LEUKEMIA (CLL)
+    Group 0 (AND): ['C91.1']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: T-CELL LYMPHOMA
+    Group 0 (AND): ['C84']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-500-100000073866
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC LYMPHOCYTIC LEUKEMIA (CLL)
+    Group 0 (AND): ['C91.1']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: T-CELL LYMPHOMA
+    Group 0 (AND): ['C84']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-40-100000073866
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-125-100000073866
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: ENTEROPATHIC ARTHROPATHIES, UNSPECIFIED SITE
+
+REACTIVE ARTHROPATHY, UNSPECIFIED
+    Group 0 (AND): ['M07.60']
+    Group 1 (AND): ['M02.9']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000837-1000-100000073866
+  Indication: ANAPHYLACTIC SHOCK
+    Group 0 (AND): ['T78.2']
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC LYMPHOCYTIC LEUKEMIA (CLL)
+    Group 0 (AND): ['C91.1']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: DIFFUSE LARGE B-CELL LYMPHOMA (DLBCL)
+    Group 0 (AND): ['C83.3']
+  Indication: FOLLICULAR LYMPHOMA
+    Group 0 (AND): ['C82']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HODGKIN'S LYMPHOMA
+    Group 0 (AND): ['C81']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS-SUPPORTIVE CARE AND ADRS MANAGEMENT
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: T-CELL LYMPHOMA
+    Group 0 (AND): ['C84']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-4-100000073664
+  Indication: ANTIPHOSPHOLIPID SYNDROME
+    Group 0 (AND): ['D68.6']
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: IMMUNE THROMBOCYPTOPENIC PUPURA
+    Group 0 (AND): ['D69.3']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MULTIPLE SCLEROSIS
+    Group 0 (AND): ['G35']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: POSTOPERATIVE NAUSEA AND VOMITING
+    Group 0 (AND): ['R11']
+  Indication: PROSTATE CANCER
+    Group 0 (AND): ['C61']
+    Group 1 (AND): ['D07.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 7000001049-25-100000073664
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: COLORECTAL CANCER-ADVANCED/ METASTATIC
+    Group 0 (AND): ['C18']
+    Group 1 (AND): ['C19']
+    Group 2 (AND): ['C20']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: DUCHENNE MUSCULAR DYSTROPHY
+    Group 0 (AND): ['G71']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGOID
+    Group 0 (AND): ['L12']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001049-5-100000073664
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: COLORECTAL CANCER-ADVANCED/ METASTATIC
+    Group 0 (AND): ['C18']
+    Group 1 (AND): ['C19']
+    Group 2 (AND): ['C20']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: DUCHENNE MUSCULAR DYSTROPHY
+    Group 0 (AND): ['G71']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGOID
+    Group 0 (AND): ['L12']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PROSTATE CANCER
+    Group 0 (AND): ['C61']
+    Group 1 (AND): ['D07.5']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001049-20-100000073681
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: COLORECTAL CANCER-ADVANCED/ METASTATIC
+    Group 0 (AND): ['C18']
+    Group 1 (AND): ['C19']
+    Group 2 (AND): ['C20']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001049-5-100000073681
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: COLORECTAL CANCER-ADVANCED/ METASTATIC
+    Group 0 (AND): ['C18']
+    Group 1 (AND): ['C19']
+    Group 2 (AND): ['C20']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PROSTATE CANCER
+    Group 0 (AND): ['C61']
+    Group 1 (AND): ['D07.5']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: SYSTEMIC LUPUS ERYTHEMATOSUS
+    Group 0 (AND): ['M32']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001723-1-100000073652
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: INFANTILE HEMANGIOMA
+    Group 0 (AND): ['D18.0']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001723-3-100000073652
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: INFANTILE HEMANGIOMA
+    Group 0 (AND): ['D18.0']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001723-5-100000073664
+  Indication: ASTHMA
+    Group 0 (AND): ['J45']
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD)
+    Group 0 (AND): ['J44']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: CYSTIC FIBROSIS
+    Group 0 (AND): ['E84']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+    Group 1 (AND): ['M14.0']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: GUILLAIN-BARRE SYNDROME - IMMUNE CHECKPOINT INHIBITOR RELATED
+    Group 0 (AND): ['G61.0']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: LICHEN PLANUS
+    Group 0 (AND): ['L43']
+  Indication: METACHROMATIC LEUKODYSTROPHY
+    Group 0 (AND): ['E75.2']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: MYOSITIS
+    Group 0 (AND): ['M33']
+  Indication: NAUSEA AND VOMITING IN PREGNANCY
+    Group 0 (AND): ['R11']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['M07']
+    Group 1 (AND): ['L40.5']
+  Indication: RENAL TRANSPLANT
+    Group 0 (AND): ['Z94.0']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+  Indication: VON WILLEBRAND DISEASE, ACQUIRED HEMOPHILIA
+    Group 0 (AND): ['D68.0']
+    Group 1 (AND): ['D68.4']
+
+Drug: 7000001049-3-100000073652
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: COLORECTAL CANCER-ADVANCED/ METASTATIC
+    Group 0 (AND): ['C18']
+    Group 1 (AND): ['C19']
+    Group 2 (AND): ['C20']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: HYPERTHYROIDISM
+    Group 0 (AND): ['E05']
+  Indication: INFANTILE HEMANGIOMA
+    Group 0 (AND): ['D18.0']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: NON-INFECTIOUS UVEITIS
+    Group 0 (AND): ['H20']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGOID
+    Group 0 (AND): ['L12']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000001723-0.3-100000073652
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: INFANTILE HEMANGIOMA
+    Group 0 (AND): ['D18.0']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000001723-0.1-100000073652
+  Indication: AUTOIMMUNE HEPATITIS
+    Group 0 (AND): ['K75.4']
+  Indication: BELL'S PALSY
+    Group 0 (AND): ['G51.0']
+  Indication: CHRONIC INFLAMMATORY DEMYELINATING POLYRADICULONEUROPATHY
+    Group 0 (AND): ['G61.8']
+  Indication: CROHN'S DISEASE
+    Group 0 (AND): ['K50']
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: GRAFT VERSUS HOST DISEASE
+    Group 0 (AND): ['D89.8']
+  Indication: GRANULOMATOSIS WITH POLYANGIITIS AND MICROSCOPIC POLYANGIITIS
+    Group 0 (AND): ['M31.3', 'M31.7']
+  Indication: INFANTILE HEMANGIOMA
+    Group 0 (AND): ['D18.0']
+  Indication: INFECTIOUS MONONUCLEOSIS
+    Group 0 (AND): ['B27']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: OPTIC NEURITIS
+    Group 0 (AND): ['H46']
+  Indication: PEMPHIGUS
+    Group 0 (AND): ['L10']
+  Indication: SJOGREN'S SYNDROME
+    Group 0 (AND): ['M35.0']
+  Indication: SPINAL MUSCULAR ATROPHY
+    Group 0 (AND): ['G12']
+  Indication: TUBERCULOSIS-SUPPORTIVE CARE
+    Group 0 (AND): ['A16.9']
+    Group 1 (AND): ['A16.7']
+    Group 2 (AND): ['A15']
+    Group 3 (AND): ['A16']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 7000000834-0.1-100000073712
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: ECZEMA
+    Group 0 (AND): ['L20']
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 7000000834-0.1-100000073713
+  Indication: BEHCET DISEASE
+    Group 0 (AND): ['M35.2']
+  Indication: PSORIASIS
+    Group 0 (AND): ['L40']
+  Indication: THROMBOTIC THROMBOCYTOPENIC PURPURA
+    Group 0 (AND): ['M31.1']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+  Indication: VITILIGO
+    Group 0 (AND): ['L80']
+
+Drug: 7000001049-20-100000073664
+  Indication: GLOMERULAR DISEASE
+    Group 0 (AND): ['N04']
+    Group 1 (AND): ['M31', 'N08']
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']
+
+Drug: 0-0-100000073864
+  Indication: GOUT
+    Group 0 (AND): ['M10']
+  Indication: JUVENILE IDIOPATHIC ARTHRITIS (JIA)
+    Group 0 (AND): ['M08']
+  Indication: OSTEOARTHRITIS
+    Group 0 (AND): ['M15']
+    Group 1 (AND): ['M16']
+    Group 2 (AND): ['M17']
+    Group 3 (AND): ['M18']
+    Group 4 (AND): ['M19']
+  Indication: PSORIATIC ARTHRITIS
+    Group 0 (AND): ['L40.5']
+  Indication: RHEUMATOID ARITHRITIS
+    Group 0 (AND): ['M05']
+    Group 1 (AND): ['M06']
+
+Drug: 8000000551--100000073843
+  Indication: HEMORRHOIDS
+    Group 0 (AND): ['K64']
+
+Drug: 8000000552--100000073713
+  Indication: HEMORRHOIDS
+    Group 0 (AND): ['K64']
+
+Drug: 7000000834-500-100000073873
+  Indication: MYASTHENIA GRAVIS
+    Group 0 (AND): ['G70']
+    Group 1 (AND): ['P94.0']
+  Indication: ULCERATIVE COLITIS
+    Group 0 (AND): ['K51']

@@ -26,7 +26,7 @@ def check_icd_match(required_code: str, is_parent: int, provided_codes: List[str
     for prov in provided_codes:
         prov_upper = prov.upper()
         if is_parent:
-            if prov_upper.startswith(req_upper) and len(prov_upper) > len(req_upper):
+            if prov_upper.startswith(req_upper) and len(prov_upper) >= len(req_upper):
                 return True
         else:
             if prov_upper == req_upper:
@@ -109,13 +109,11 @@ def validate_prescription(req: ValidationRequest, db_path: str) -> Dict[str, Any
                     
                 group_matched = False
                 for g, codes in groups.items():
-                    all_and_matched = True
                     for c in codes:
-                        if not check_icd_match(c["icd_code"], c["is_parent"], req.icd_codes):
-                            all_and_matched = False
+                        if check_icd_match(c["icd_code"], c["is_parent"], req.icd_codes):
+                            group_matched = True
                             break
-                    if all_and_matched:
-                        group_matched = True
+                    if group_matched:
                         break
                         
                 if group_matched:
